@@ -12,14 +12,10 @@ var connectionString = builder.Configuration.GetConnectionString("FlightTracker"
 builder.Services.AddDbContext<FlightTrackerDbContext>(options =>
     options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
-// Where plane data comes from (OpenSky for now) and the background jobs that collect it.
+// Where plane data comes from (the Pi receiver or OpenSky) and the background jobs that collect it.
+// AddAircraftSource also sets the poll interval for the chosen source.
 builder.Services.AddAircraftSource(builder.Configuration);
 builder.Services.AddScoped<SightingSaver>();
-
-builder.Services.AddOptions<PollerOptions>()
-    .Bind(builder.Configuration.GetSection("Poller"))
-    .Validate(o => o.IntervalSeconds >= 10, "Poller:IntervalSeconds must be at least 10.")
-    .ValidateOnStart();
 builder.Services.AddHostedService<AircraftPoller>();
 
 builder.Services.Configure<CleanupOptions>(builder.Configuration.GetSection("Cleanup"));

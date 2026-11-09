@@ -8,6 +8,7 @@ public class OpenSkyOptions
 
     public string TokenUrl { get; set; } = "";
     public string ApiUrl { get; set; } = "";
+    public int PollIntervalSeconds { get; set; } = 30;
 
     // Bounding box around Hamilton.
     public double LatMin { get; set; }

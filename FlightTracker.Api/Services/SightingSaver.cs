@@ -29,9 +29,9 @@ public class SightingSaver(FlightTrackerDbContext db)
                 db.Aircraft.Add(aircraft);
                 knownAircraft[state.Icao24] = aircraft;
             }
-            else if (state.Time <= aircraft.LastSeen)
+            else if (state.Time < aircraft.LastSeen.AddSeconds(1))
             {
-                // Same position as last poll, nothing new to save.
+                // Same position as last poll (allowing for rounding), nothing new to save.
                 continue;
             }
 
