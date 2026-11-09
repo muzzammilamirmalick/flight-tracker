@@ -11,6 +11,7 @@ public class PollerOptions
 // Asks the aircraft source for planes on a timer and saves what it gets.
 public class AircraftPoller(
     IServiceScopeFactory scopeFactory,
+    ReceiverStatusTracker status,
     IOptions<PollerOptions> options,
     ILogger<AircraftPoller> logger) : BackgroundService
 {
@@ -44,6 +45,7 @@ public class AircraftPoller(
 
             var planes = await source.GetAircraftAsync(stoppingToken);
             var saved = await saver.SaveAsync(planes, stoppingToken);
+            status.RecordPoll(planes.Count);
 
             logger.LogInformation("Got {Planes} planes, saved {Saved} new sightings", planes.Count, saved);
         }

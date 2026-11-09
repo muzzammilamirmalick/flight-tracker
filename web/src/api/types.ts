@@ -43,3 +43,12 @@ export interface Trail {
   icao24: string
   points: TrailPoint[]
 }
+
+export interface ReceiverStatus {
+  source: string
+  online: boolean
+  lastUpdate: string | null
+  messagesPerSecond: number | null
+  aircraftTracked: number | null
+  planesWithPosition: number
+}

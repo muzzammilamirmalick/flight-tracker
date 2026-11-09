@@ -24,6 +24,10 @@ Accept: application/json
 GET {{FlightTracker.Api_HostAddress}}/api/stats
 Accept: application/json
 
+### Receiver status: source, online, message rate, plane count
+GET {{FlightTracker.Api_HostAddress}}/api/receiver
+Accept: application/json
+
 ### Bad input: should return 400
 GET {{FlightTracker.Api_HostAddress}}/api/planes/not-a-hex/history
 Accept: application/json

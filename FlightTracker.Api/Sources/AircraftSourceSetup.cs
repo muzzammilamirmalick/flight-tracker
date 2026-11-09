@@ -15,6 +15,7 @@ public static class AircraftSourceSetup
     public static void AddAircraftSource(this IServiceCollection services, IConfiguration configuration)
     {
         var sourceName = configuration["AircraftSource"] ?? "Readsb";
+        services.AddSingleton(provider => new ReceiverStatusTracker(sourceName, provider.GetRequiredService<TimeProvider>()));
 
         switch (sourceName)
         {

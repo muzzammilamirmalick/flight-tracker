@@ -2,6 +2,10 @@ using System.Text.Json;
 
 namespace FlightTracker.Api.Sources.Readsb;
 
+// Everything we use from one aircraft.json file.
+// Messages is readsb's running total since it started, used for the message rate.
+public record ReadsbSnapshot(double Now, long? Messages, int AircraftTracked, List<AircraftState> Planes);
+
 // Turns readsb's aircraft.json into AircraftState records.
 // readsb already uses feet, knots and feet per minute, so no unit conversion is needed.
 // See https://github.com/wiedehopf/readsb/blob/dev/README-json.md
@@ -10,17 +14,20 @@ public static class ReadsbParser
     // readsb stops treating lat/lon as valid after 60 seconds without a new position.
     private const double MaxPositionAgeSeconds = 60;
 
-    public static List<AircraftState> Parse(string json)
+    public static List<AircraftState> Parse(string json) => ParseSnapshot(json).Planes;
+
+    public static ReadsbSnapshot ParseSnapshot(string json)
     {
         using var document = JsonDocument.Parse(json);
         var root = document.RootElement;
         var planes = new List<AircraftState>();
 
         var now = GetDouble(root, "now");
+        var messages = GetDouble(root, "messages");
         if (now is null || !root.TryGetProperty("aircraft", out var aircraft) ||
             aircraft.ValueKind != JsonValueKind.Array)
         {
-            return planes;
+            return new ReadsbSnapshot(now ?? 0, null, 0, planes);
         }
 
         foreach (var item in aircraft.EnumerateArray())
@@ -32,7 +39,7 @@ public static class ReadsbParser
             }
         }
 
-        return planes;
+        return new ReadsbSnapshot(now.Value, messages is null ? null : (long)messages.Value, aircraft.GetArrayLength(), planes);
     }
 
     private static AircraftState? ParseAircraft(JsonElement item, double now)

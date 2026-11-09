@@ -5,11 +5,13 @@ import { DepartureBoard } from './components/DepartureBoard'
 import { LiveMap } from './components/LiveMap'
 import { LookUpCard } from './components/LookUpCard'
 import { PlaneDetailCard } from './components/PlaneDetailCard'
+import { ReceiverStatus } from './components/ReceiverStatus'
 import { SkyBackground } from './components/SkyBackground'
 import { StatusBanner } from './components/StatusBanner'
 import { useLivePlanes } from './hooks/useLivePlanes'
 import { TRAIL_MINUTES, useTrails } from './hooks/useTrails'
 import { useNow } from './hooks/useNow'
+import { useReceiverStatus } from './hooks/useReceiverStatus'
 import { closestPlane, skyPositionOf } from './lib/lookUp'
 import { buildLiveTrailLines, predictPosition } from './lib/planeMotion'
 import styles from './App.module.css'
@@ -17,6 +19,7 @@ import styles from './App.module.css'
 export default function App() {
   const { planes, status, lastPlaneSeenAt } = useLivePlanes()
   const reducedMotion = useReducedMotion() ?? false
+  const receiver = useReceiverStatus()
   const [selectedIcao, setSelectedIcao] = useState<string | null>(null)
 
   // The plane the Look Up card is showing when nothing is picked. Kept so the card does not flicker.
@@ -66,6 +69,7 @@ export default function App() {
       </main>
 
       <aside className={styles.side} aria-label="Planes near my home">
+        <ReceiverStatus status={receiver} />
         <DepartureBoard
           planes={planes}
           selectedIcao={selectedPlane?.icao24 ?? null}
