@@ -1,0 +1,103 @@
+.text {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.char {
+  --flap-height: 22px;
+  position: relative;
+  display: inline-block;
+  width: 14px;
+  height: var(--flap-height);
+  perspective: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: #f3f0e6;
+}
+
+/* Each half shows half of the character. */
+.top,
+.bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: #171c2b;
+  backface-visibility: hidden;
+}
+
+.top {
+  top: 0;
+  border-radius: 3px 3px 0 0;
+  transform-origin: bottom;
+}
+
+.bottom {
+  bottom: 0;
+  border-radius: 0 0 3px 3px;
+  background: #1b2132;
+  transform-origin: top;
+}
+
+/* The thin line across the middle of a real flap. */
+.bottom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+.glyph {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--flap-height);
+  line-height: var(--flap-height);
+  text-align: center;
+}
+
+.top .glyph {
+  top: 0;
+}
+
+.bottom .glyph {
+  bottom: 0;
+}
+
+/* The old top half folds down, then the new bottom half swings up into place. */
+.flipTop {
+  z-index: 2;
+  animation: fold-down 0.16s ease-in forwards;
+}
+
+.flipBottom {
+  z-index: 2;
+  transform: rotateX(90deg);
+  animation: swing-up 0.16s ease-out 0.16s forwards;
+}
+
+@keyframes fold-down {
+  to {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes swing-up {
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flipTop,
+  .flipBottom {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+}

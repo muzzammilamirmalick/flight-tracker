@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { AnimatePresence, useReducedMotion } from 'motion/react'
 import { AltitudeLegend } from './components/AltitudeLegend'
+import { DepartureBoard } from './components/DepartureBoard'
 import { LiveMap } from './components/LiveMap'
 import { LookUpCard } from './components/LookUpCard'
 import { PlaneDetailCard } from './components/PlaneDetailCard'
@@ -63,6 +64,15 @@ export default function App() {
           onShowClosest={() => setSelectedIcao(null)}
         />
       </main>
+
+      <aside className={styles.side} aria-label="Planes near my home">
+        <DepartureBoard
+          planes={planes}
+          selectedIcao={selectedPlane?.icao24 ?? null}
+          reducedMotion={reducedMotion}
+          onSelectPlane={setSelectedIcao}
+        />
+      </aside>
 
       <AltitudeLegend />
 

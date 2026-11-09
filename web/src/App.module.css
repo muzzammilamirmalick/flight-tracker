@@ -30,6 +30,24 @@
   }
 }
 
+/* Right hand column on desktop. On phones these go in the bottom sheet instead. */
+.side {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .side {
+    position: fixed;
+    z-index: 10;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 390px;
+  }
+}
+
 .visuallyHidden {
   position: absolute;
   width: 1px;
