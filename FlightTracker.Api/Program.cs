@@ -1,4 +1,5 @@
 using FlightTracker.Api.Data;
+using FlightTracker.Api.Endpoints;
 using FlightTracker.Api.Services;
 using FlightTracker.Api.Sources;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,16 @@ builder.Services.AddHostedService<AircraftPoller>();
 builder.Services.Configure<CleanupOptions>(builder.Configuration.GetSection("Cleanup"));
 builder.Services.AddHostedService<SightingCleanup>();
 
+// Reading data back out for the endpoints.
+builder.Services.AddOptions<HomeOptions>()
+    .Bind(builder.Configuration.GetSection("Home"))
+    .Validate(o => TimeZoneInfo.TryFindSystemTimeZoneById(o.TimeZone, out _), "Home:TimeZone is not a known time zone.")
+    .ValidateOnStart();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<PlaneQueries>();
+builder.Services.AddScoped<StatsService>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -30,10 +41,24 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// No HTTPS redirect: the API only runs over plain http on my home network.
+
+// Unexpected errors become a 500 problem response. Bad input that ASP.NET could not bind
+// (like ?limit=abc) keeps its own 400 status instead.
+app.UseExceptionHandler(new ExceptionHandlerOptions
+{
+    StatusCodeSelector = exception => exception is BadHttpRequestException badRequest
+        ? badRequest.StatusCode
+        : StatusCodes.Status500InternalServerError,
+});
+
+// Give empty error responses (like a 404) the same problem JSON body as the others.
+app.UseStatusCodePages();
 
 app.MapGet("/api/health", () => new HealthResponse("Flight tracker is running", DateTimeOffset.UtcNow))
     .WithName("GetHealth");
+app.MapPlaneEndpoints();
+app.MapStatsEndpoints();
 
 app.Run();
 

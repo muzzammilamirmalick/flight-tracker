@@ -4,4 +4,28 @@
 GET {{FlightTracker.Api_HostAddress}}/api/health
 Accept: application/json
 
+### Planes seen in the last 2 minutes, with their latest position
+GET {{FlightTracker.Api_HostAddress}}/api/planes/live
+Accept: application/json
+
+### Closest planes to home (limit is 1 to 50, default 5)
+GET {{FlightTracker.Api_HostAddress}}/api/planes/overhead?limit=5
+Accept: application/json
+
+### Path for one plane over the last 24 hours (hours is 1 to 720, default 24)
+GET {{FlightTracker.Api_HostAddress}}/api/planes/c07c7b/history?hours=24
+Accept: application/json
+
+### Stats for today
+GET {{FlightTracker.Api_HostAddress}}/api/stats
+Accept: application/json
+
+### Bad input: should return 400
+GET {{FlightTracker.Api_HostAddress}}/api/planes/not-a-hex/history
+Accept: application/json
+
+### Bad input: should return 400
+GET {{FlightTracker.Api_HostAddress}}/api/planes/overhead?limit=500
+Accept: application/json
+
 ###

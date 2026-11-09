@@ -1,0 +1,90 @@
+using FlightTracker.Api.Data;
+using FlightTracker.Api.Endpoints;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
+namespace FlightTracker.Api.Services;
+
+public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home, TimeProvider clock)
+{
+    // A plane counts as "live" if we got a position for it in this window.
+    public static readonly TimeSpan LiveWindow = TimeSpan.FromMinutes(2);
+
+    // Every live plane with its latest position.
+    public async Task<List<LivePlaneDto>> GetLivePlanesAsync(CancellationToken cancellationToken)
+    {
+        var cutoff = clock.GetUtcNow().UtcDateTime - LiveWindow;
+
+        var rows = await db.Aircraft
+            .Where(a => a.LastSeen >= cutoff)
+            .Select(a => new
+            {
+                Aircraft = a,
+                // Only look at recent sightings, so the database does not sort the whole table.
+                Latest = a.Sightings
+                    .Where(s => s.Time >= cutoff)
+                    .OrderByDescending(s => s.Time)
+                    .FirstOrDefault(),
+            })
+            .ToListAsync(cancellationToken);
+
+        return rows
+            .Where(r => r.Latest is not null)
+            .Select(r => new LivePlaneDto(
+                r.Aircraft.Icao24,
+                r.Aircraft.Callsign,
+                r.Aircraft.Registration,
+                r.Aircraft.TypeCode,
+                r.Aircraft.Operator,
+                r.Latest!.Latitude,
+                r.Latest.Longitude,
+                r.Latest.AltitudeFt,
+                r.Latest.SpeedKts,
+                r.Latest.Heading,
+                r.Latest.VerticalRate,
+                r.Latest.Time))
+            .OrderBy(p => p.Callsign ?? p.Icao24)
+            .ToList();
+    }
+
+    // The live planes closest to home, nearest first.
+    public async Task<List<OverheadPlaneDto>> GetOverheadAsync(int limit, CancellationToken cancellationToken)
+    {
+        var homePoint = home.Value;
+        var livePlanes = await GetLivePlanesAsync(cancellationToken);
+
+        return livePlanes
+            .Select(p => new OverheadPlaneDto(p, Math.Round(
+                Haversine.DistanceKm(homePoint.Latitude, homePoint.Longitude, p.Latitude, p.Longitude), 2)))
+            .OrderBy(o => o.DistanceKm)
+            .Take(limit)
+            .ToList();
+    }
+
+    // One plane's path over the last few hours. Returns null if we have never seen the plane.
+    public async Task<PlaneHistoryDto?> GetHistoryAsync(string icao24, int hours, CancellationToken cancellationToken)
+    {
+        var aircraft = await db.Aircraft.FirstOrDefaultAsync(a => a.Icao24 == icao24, cancellationToken);
+        if (aircraft is null)
+        {
+            return null;
+        }
+
+        var since = clock.GetUtcNow().UtcDateTime.AddHours(-hours);
+        var points = await db.Sightings
+            .Where(s => s.Icao24 == icao24 && s.Time >= since)
+            .OrderBy(s => s.Time)
+            .Select(s => new HistoryPointDto(s.Time, s.Latitude, s.Longitude, s.AltitudeFt, s.SpeedKts, s.Heading))
+            .ToListAsync(cancellationToken);
+
+        return new PlaneHistoryDto(
+            aircraft.Icao24,
+            aircraft.Callsign,
+            aircraft.Registration,
+            aircraft.TypeCode,
+            aircraft.Operator,
+            aircraft.FirstSeen,
+            aircraft.LastSeen,
+            points);
+    }
+}
