@@ -1,7 +1,14 @@
 .map {
   position: fixed;
   inset: 0;
-  background: var(--bg);
+  z-index: 1;
+}
+
+/* The top of the map fades into the sky behind it, like a horizon.
+   Only the map picture fades, the plane markers stay sharp. */
+.map :global(.maplibregl-canvas) {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 14%, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 14%, #000 30%);
 }
 
 /* My home: a soft dot with a slow pulse around it. */

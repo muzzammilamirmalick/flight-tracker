@@ -4,6 +4,7 @@ import { AltitudeLegend } from './components/AltitudeLegend'
 import { LiveMap } from './components/LiveMap'
 import { LookUpCard } from './components/LookUpCard'
 import { PlaneDetailCard } from './components/PlaneDetailCard'
+import { SkyBackground } from './components/SkyBackground'
 import { StatusBanner } from './components/StatusBanner'
 import { useLivePlanes } from './hooks/useLivePlanes'
 import { TRAIL_MINUTES, useTrails } from './hooks/useTrails'
@@ -39,6 +40,7 @@ export default function App() {
 
   return (
     <div className={styles.app}>
+      <SkyBackground />
       <LiveMap
         planes={planes}
         selectedIcao={selectedPlane?.icao24 ?? null}

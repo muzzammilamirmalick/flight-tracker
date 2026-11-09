@@ -1,0 +1,36 @@
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  transition: background 2s linear;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  transition: opacity 2s linear;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.7;
+  animation: twinkle 6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+  }
+}
