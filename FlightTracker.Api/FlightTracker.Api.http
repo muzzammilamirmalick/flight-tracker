@@ -12,6 +12,10 @@ Accept: application/json
 GET {{FlightTracker.Api_HostAddress}}/api/planes/overhead?limit=5
 Accept: application/json
 
+### Recent positions of live planes, for trails (minutes is 1 to 30, default 5)
+GET {{FlightTracker.Api_HostAddress}}/api/planes/trails?minutes=5
+Accept: application/json
+
 ### Path for one plane over the last 24 hours (hours is 1 to 720, default 24)
 GET {{FlightTracker.Api_HostAddress}}/api/planes/c07c7b/history?hours=24
 Accept: application/json

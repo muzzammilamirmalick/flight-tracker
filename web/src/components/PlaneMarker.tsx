@@ -7,7 +7,6 @@ import { altitudeColor } from '../lib/altitudeColor'
 import { airlineName, formatAltitude } from '../lib/describe'
 import { useContinuousAngle } from '../hooks/useContinuousAngle'
 import type { LatLon } from '../lib/geo'
-import { predictPosition } from '../lib/planeMotion'
 import styles from './PlaneMarker.module.css'
 
 interface PlaneMarkerProps {
@@ -16,16 +15,18 @@ interface PlaneMarkerProps {
   isSelected: boolean
   reducedMotion: boolean
   onSelect: (icao24: string) => void
+  positionAt: (plane: LivePlane, nowMs: number) => LatLon
 }
 
 // When a new report arrives, the marker eases from where it is drawn into the new path
 // over this long, so it never jumps.
 const BLEND_MS = 1500
 
-export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect }: PlaneMarkerProps) {
+export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect, positionAt }: PlaneMarkerProps) {
   const element = useMemo(() => document.createElement('div'), [])
   const markerRef = useRef<Marker | null>(null)
   const planeRef = useRef(plane)
+  const positionAtRef = useRef(positionAt)
   const drawnAt = useRef<LatLon | null>(null)
   const correction = useRef({ latitude: 0, longitude: 0, startedAt: 0 })
   const rotation = useContinuousAngle(plane.heading)
@@ -44,6 +45,10 @@ export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect }:
     }
   }, [map, element])
 
+  useEffect(() => {
+    positionAtRef.current = positionAt
+  }, [positionAt])
+
   // A new report: remember how far the drawn position is from the new guess, then fade that gap out.
   useEffect(() => {
     planeRef.current = plane
@@ -53,7 +58,7 @@ export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect }:
       correction.current = { latitude: 0, longitude: 0, startedAt: now }
       return
     }
-    const guess = predictPosition(plane, now)
+    const guess = positionAtRef.current(plane, now)
     correction.current = {
       latitude: drawn.latitude - guess.latitude,
       longitude: drawn.longitude - guess.longitude,
@@ -73,7 +78,7 @@ export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect }:
       if (reducedMotion) {
         position = { latitude: current.latitude, longitude: current.longitude }
       } else {
-        const guess = predictPosition(current, now)
+        const guess = positionAtRef.current(current, now)
         const remaining = Math.max(0, 1 - (now - correction.current.startedAt) / BLEND_MS)
         const ease = remaining * remaining
         position = {

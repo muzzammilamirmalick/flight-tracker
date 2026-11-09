@@ -31,3 +31,15 @@ export interface LivePlane {
   lastSeen: string
   route: FlightRoute | null
 }
+
+export interface TrailPoint {
+  time: string
+  latitude: number
+  longitude: number
+  altitudeFt: number | null
+}
+
+export interface Trail {
+  icao24: string
+  points: TrailPoint[]
+}

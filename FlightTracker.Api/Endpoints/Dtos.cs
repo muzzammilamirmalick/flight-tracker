@@ -43,6 +43,11 @@ public record PlaneHistoryDto(
     DateTime LastSeen,
     List<HistoryPointDto> Points);
 
+// Recent positions of one live plane, oldest first, for drawing its trail.
+public record TrailDto(string Icao24, List<TrailPointDto> Points);
+
+public record TrailPointDto(DateTime Time, double Latitude, double Longitude, int? AltitudeFt);
+
 public record StatsDto(
     DateOnly Date,
     int PlanesToday,

@@ -10,6 +10,8 @@ public static class PlaneEndpoints
     private const int MaxOverheadLimit = 50;
     private const int DefaultHistoryHours = 24;
     private const int MaxHistoryHours = 30 * 24; // Sightings are only kept for 30 days.
+    private const int DefaultTrailMinutes = 5;
+    private const int MaxTrailMinutes = 30;
 
     private static readonly Regex Icao24Pattern = new("^[0-9a-fA-F]{6}$", RegexOptions.Compiled);
 
@@ -19,6 +21,7 @@ public static class PlaneEndpoints
 
         planes.MapGet("/live", GetLive).WithName("GetLivePlanes");
         planes.MapGet("/overhead", GetOverhead).WithName("GetOverheadPlanes");
+        planes.MapGet("/trails", GetTrails).WithName("GetPlaneTrails");
         planes.MapGet("/{icao24}/history", GetHistory).WithName("GetPlaneHistory");
     }
 
@@ -37,6 +40,18 @@ public static class PlaneEndpoints
         }
 
         return TypedResults.Ok(await queries.GetOverheadAsync(count, cancellationToken));
+    }
+
+    private static async Task<Results<Ok<List<TrailDto>>, ValidationProblem>> GetTrails(
+        int? minutes, PlaneQueries queries, CancellationToken cancellationToken)
+    {
+        var minutesBack = minutes ?? DefaultTrailMinutes;
+        if (minutesBack < 1 || minutesBack > MaxTrailMinutes)
+        {
+            return ValidationError("minutes", $"minutes must be between 1 and {MaxTrailMinutes}.");
+        }
+
+        return TypedResults.Ok(await queries.GetTrailsAsync(minutesBack, cancellationToken));
     }
 
     private static async Task<Results<Ok<PlaneHistoryDto>, ValidationProblem, NotFound>> GetHistory(

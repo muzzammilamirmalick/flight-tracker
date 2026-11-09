@@ -94,6 +94,26 @@ public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home,
             points);
     }
 
+    // Recent positions for every live plane, used to draw fading trails on the map.
+    public async Task<List<TrailDto>> GetTrailsAsync(int minutes, CancellationToken cancellationToken)
+    {
+        var now = clock.GetUtcNow().UtcDateTime;
+        var liveCutoff = now - LiveWindow;
+        var since = now.AddMinutes(-minutes);
+
+        var points = await db.Sightings
+            .Where(s => s.Time >= since && s.Aircraft!.LastSeen >= liveCutoff)
+            .OrderBy(s => s.Icao24)
+            .ThenBy(s => s.Time)
+            .Select(s => new { s.Icao24, Point = new TrailPointDto(s.Time, s.Latitude, s.Longitude, s.AltitudeFt) })
+            .ToListAsync(cancellationToken);
+
+        return points
+            .GroupBy(p => p.Icao24)
+            .Select(g => new TrailDto(g.Key, g.Select(p => p.Point).ToList()))
+            .ToList();
+    }
+
     // Routes come from the in-memory cache that AircraftDetailsLookup fills.
     private FlightRoute? FindRoute(string? callsign) =>
         callsign is not null && routeCache.TryGet(callsign, out var route) ? route : null;

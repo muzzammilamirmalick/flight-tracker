@@ -3,9 +3,12 @@ import { Map as MapLibreMap, Marker } from 'maplibre-gl'
 import { AnimatePresence } from 'motion/react'
 import type { LivePlane } from '../api/types'
 import { HOME, MAP_STYLE_URL } from '../config'
+import type { LatLon } from '../lib/geo'
+import type { TrailLinePoint } from '../lib/planeMotion'
 import { addRangeRings, muteBaseMap } from '../lib/mapLayers'
 import '../lib/mapWorker'
 import { PlaneMarker } from './PlaneMarker'
+import { PlaneTrails } from './PlaneTrails'
 import styles from './LiveMap.module.css'
 
 interface LiveMapProps {
@@ -13,11 +16,24 @@ interface LiveMapProps {
   selectedIcao: string | null
   reducedMotion: boolean
   onSelectPlane: (icao24: string) => void
+  // Where each plane should be drawn at a moment in time (live guess, or replay).
+  positionAt: (plane: LivePlane, nowMs: number) => LatLon
+  getTrailLines: (nowMs: number) => TrailLinePoint[][]
+  trailMaxAgeMs: number
 }
 
-export function LiveMap({ planes, selectedIcao, reducedMotion, onSelectPlane }: LiveMapProps) {
+export function LiveMap({
+  planes,
+  selectedIcao,
+  reducedMotion,
+  onSelectPlane,
+  positionAt,
+  getTrailLines,
+  trailMaxAgeMs,
+}: LiveMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
+  const [styleReady, setStyleReady] = useState(false)
 
   // Create the map once.
   useEffect(() => {
@@ -49,6 +65,7 @@ export function LiveMap({ planes, selectedIcao, reducedMotion, onSelectPlane }: 
     instance.once('style.load', () => {
       muteBaseMap(instance)
       addRangeRings(instance)
+      setStyleReady(true)
     })
     setMap(instance)
 
@@ -61,11 +78,13 @@ export function LiveMap({ planes, selectedIcao, reducedMotion, onSelectPlane }: 
     return () => {
       instance.remove()
       setMap(null)
+      setStyleReady(false)
     }
   }, [])
 
   return (
     <div ref={containerRef} className={styles.map} role="region" aria-label="Map of planes near my home">
+      {map && styleReady && <PlaneTrails map={map} getLines={getTrailLines} maxAgeMs={trailMaxAgeMs} />}
       {map && (
         <AnimatePresence>
           {planes.map((plane) => (
@@ -76,6 +95,7 @@ export function LiveMap({ planes, selectedIcao, reducedMotion, onSelectPlane }: 
               isSelected={plane.icao24 === selectedIcao}
               reducedMotion={reducedMotion}
               onSelect={onSelectPlane}
+              positionAt={positionAt}
             />
           ))}
         </AnimatePresence>

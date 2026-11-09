@@ -6,8 +6,10 @@ import { LookUpCard } from './components/LookUpCard'
 import { PlaneDetailCard } from './components/PlaneDetailCard'
 import { StatusBanner } from './components/StatusBanner'
 import { useLivePlanes } from './hooks/useLivePlanes'
+import { TRAIL_MINUTES, useTrails } from './hooks/useTrails'
 import { useNow } from './hooks/useNow'
 import { closestPlane, skyPositionOf } from './lib/lookUp'
+import { buildLiveTrailLines, predictPosition } from './lib/planeMotion'
 import styles from './App.module.css'
 
 export default function App() {
@@ -27,6 +29,9 @@ export default function App() {
 
   const closeDetails = useCallback(() => setSelectedIcao(null), [])
 
+  const trails = useTrails(true)
+  const getTrailLines = useCallback((nowMs: number) => buildLiveTrailLines(planes, trails, nowMs), [planes, trails])
+
   const newClosestIcao = closest?.plane.icao24 ?? null
   if (newClosestIcao !== closestIcao) {
     setClosestIcao(newClosestIcao)
@@ -39,6 +44,9 @@ export default function App() {
         selectedIcao={selectedPlane?.icao24 ?? null}
         reducedMotion={reducedMotion}
         onSelectPlane={setSelectedIcao}
+        positionAt={predictPosition}
+        getTrailLines={getTrailLines}
+        trailMaxAgeMs={TRAIL_MINUTES * 60_000}
       />
 
       <main className={styles.overlay}>
