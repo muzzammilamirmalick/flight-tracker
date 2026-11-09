@@ -1,4 +1,14 @@
+using FlightTracker.Api.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Comes from user-secrets on the PC and an environment variable on the Pi.
+var connectionString = builder.Configuration.GetConnectionString("FlightTracker")
+    ?? throw new InvalidOperationException("Connection string 'FlightTracker' is not set.");
+
+builder.Services.AddDbContext<FlightTrackerDbContext>(options =>
+    options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
 builder.Services.AddOpenApi();
 
