@@ -19,12 +19,18 @@ public class AircraftPoller(
         var interval = TimeSpan.FromSeconds(options.Value.IntervalSeconds);
         logger.LogInformation("Polling for aircraft every {Seconds} seconds", interval.TotalSeconds);
 
-        using var timer = new PeriodicTimer(interval);
-        do
+        try
         {
-            await PollOnceAsync(stoppingToken);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await PollOnceAsync(stoppingToken);
+                await Task.Delay(interval, stoppingToken);
+            }
         }
-        while (await timer.WaitForNextTickAsync(stoppingToken));
+        catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+        {
+            // The app is shutting down while we wait for the next poll.
+        }
     }
 
     private async Task PollOnceAsync(CancellationToken stoppingToken)
@@ -41,13 +47,14 @@ public class AircraftPoller(
 
             logger.LogInformation("Got {Planes} planes, saved {Saved} new sightings", planes.Count, saved);
         }
-        catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+        catch (Exception) when (stoppingToken.IsCancellationRequested)
         {
-            // The app is shutting down.
+            // Shutdown started in the middle of a poll. The HTTP client or database can throw
+            // different exception types when that happens, so treat any of them as a normal stop.
         }
         catch (Exception ex)
         {
-            // Log and keep going. One bad poll should never stop the service.
+            // A real failure. Log it and try again next interval.
             logger.LogError(ex, "Polling for aircraft failed, will try again next interval");
         }
     }

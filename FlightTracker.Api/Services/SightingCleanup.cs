@@ -15,14 +15,22 @@ public class SightingCleanup(
     IOptions<CleanupOptions> options,
     ILogger<SightingCleanup> logger) : BackgroundService
 {
+    private static readonly TimeSpan RunEvery = TimeSpan.FromDays(1);
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var timer = new PeriodicTimer(TimeSpan.FromDays(1));
-        do
+        try
         {
-            await CleanUpOnceAsync(stoppingToken);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await CleanUpOnceAsync(stoppingToken);
+                await Task.Delay(RunEvery, stoppingToken);
+            }
         }
-        while (await timer.WaitForNextTickAsync(stoppingToken));
+        catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+        {
+            // The app is shutting down while we wait for the next cleanup.
+        }
     }
 
     private async Task CleanUpOnceAsync(CancellationToken stoppingToken)
@@ -39,9 +47,9 @@ public class SightingCleanup(
 
             logger.LogInformation("Deleted {Count} sightings older than {Days} days", deleted, options.Value.KeepDays);
         }
-        catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+        catch (Exception) when (stoppingToken.IsCancellationRequested)
         {
-            // The app is shutting down.
+            // Shutdown started in the middle of a cleanup. Treat it as a normal stop.
         }
         catch (Exception ex)
         {
