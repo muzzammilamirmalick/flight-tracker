@@ -434,3 +434,6 @@ secrets.json
 .env.*
 !.env.example
 appsettings.*.local.json
+
+# Playwright MCP output
+.playwright-mcp/

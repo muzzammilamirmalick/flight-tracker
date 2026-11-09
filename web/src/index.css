@@ -1,0 +1,50 @@
+:root {
+  --bg: #0b1020;
+  --text: #e9eef8;
+  --text-dim: #a0abc2;
+  --accent: #8fd3ff;
+  --home: #ffd28a;
+  --glass: rgba(13, 19, 37, 0.64);
+  --glass-border: rgba(255, 255, 255, 0.09);
+
+  --font-ui: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  color-scheme: dark;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Make the map attribution fit the dark look. */
+.maplibregl-ctrl-attrib {
+  background: rgba(11, 16, 32, 0.6) !important;
+  color: var(--text-dim);
+}
+
+.maplibregl-ctrl-attrib a {
+  color: var(--text-dim);
+}
+
+.maplibregl-ctrl-attrib-button {
+  filter: invert(1) opacity(0.6);
+}

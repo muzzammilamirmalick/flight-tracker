@@ -1,0 +1,25 @@
+.wrapper:empty {
+  display: none;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  background: rgba(60, 22, 30, 0.75);
+  border: 1px solid rgba(255, 140, 140, 0.25);
+  color: #ffd9d9;
+  font-size: 13px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: #ff8a8a;
+}
