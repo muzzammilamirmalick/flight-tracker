@@ -17,6 +17,8 @@ public class FlightTrackerDbContext(DbContextOptions<FlightTrackerDbContext> opt
             aircraft.Property(a => a.Callsign).HasMaxLength(8);
             aircraft.Property(a => a.Registration).HasMaxLength(16);
             aircraft.Property(a => a.TypeCode).HasMaxLength(8);
+            aircraft.Property(a => a.Manufacturer).HasMaxLength(100);
+            aircraft.Property(a => a.Model).HasMaxLength(100);
             aircraft.Property(a => a.Operator).HasMaxLength(100);
             aircraft.HasIndex(a => a.LastSeen);
         });

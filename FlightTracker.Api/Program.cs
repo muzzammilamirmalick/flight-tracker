@@ -1,6 +1,7 @@
 using FlightTracker.Api.Data;
 using FlightTracker.Api.Endpoints;
 using FlightTracker.Api.Services;
+using FlightTracker.Api.Services.Details;
 using FlightTracker.Api.Sources;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,22 @@ builder.Services.AddScoped<PlaneQueries>();
 builder.Services.AddScoped<StatsService>();
 builder.Services.AddProblemDetails();
 
+// Plane type, registration and route from adsbdb.com, filled in the background.
+builder.Services.AddHttpClient<AdsbdbClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Adsbdb:BaseUrl"] ?? "https://api.adsbdb.com/v0/");
+    client.Timeout = TimeSpan.FromSeconds(10);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("FlightTracker/1.0");
+});
+builder.Services.AddSingleton<RouteCache>();
+builder.Services.AddHostedService<AircraftDetailsLookup>();
+
+// Let the React app call the API from its own address (the Vite dev server on the PC).
+const string WebAppCors = "WebApp";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(options =>
+    options.AddPolicy(WebAppCors, policy => policy.WithOrigins(allowedOrigins).AllowAnyHeader().WithMethods("GET")));
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -40,6 +57,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors(WebAppCors);
 
 // No HTTPS redirect: the API only runs over plain http on my home network.
 

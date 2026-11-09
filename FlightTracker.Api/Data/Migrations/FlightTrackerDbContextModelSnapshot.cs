@@ -34,6 +34,10 @@ namespace FlightTracker.Api.Data.Migrations
                         .HasColumnType("character varying(8)")
                         .HasColumnName("callsign");
 
+                    b.Property<DateTime?>("DetailsLookedUpAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("details_looked_up_at");
+
                     b.Property<DateTime>("FirstSeen")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("first_seen");
@@ -41,6 +45,16 @@ namespace FlightTracker.Api.Data.Migrations
                     b.Property<DateTime>("LastSeen")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_seen");
+
+                    b.Property<string>("Manufacturer")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("manufacturer");
+
+                    b.Property<string>("Model")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("model");
 
                     b.Property<string>("Operator")
                         .HasMaxLength(100)

@@ -1,3 +1,5 @@
+using FlightTracker.Api.Services.Details;
+
 namespace FlightTracker.Api.Endpoints;
 
 // What the API sends back. All times are UTC.
@@ -7,6 +9,8 @@ public record LivePlaneDto(
     string? Callsign,
     string? Registration,
     string? TypeCode,
+    string? Manufacturer,
+    string? Model,
     string? Operator,
     double Latitude,
     double Longitude,
@@ -14,7 +18,8 @@ public record LivePlaneDto(
     double? SpeedKts,
     double? Heading,
     int? VerticalRate,
-    DateTime LastSeen);
+    DateTime LastSeen,
+    FlightRoute? Route);
 
 public record OverheadPlaneDto(LivePlaneDto Plane, double DistanceKm);
 
@@ -31,6 +36,8 @@ public record PlaneHistoryDto(
     string? Callsign,
     string? Registration,
     string? TypeCode,
+    string? Manufacturer,
+    string? Model,
     string? Operator,
     DateTime FirstSeen,
     DateTime LastSeen,

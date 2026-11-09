@@ -1,11 +1,12 @@
 using FlightTracker.Api.Data;
 using FlightTracker.Api.Endpoints;
+using FlightTracker.Api.Services.Details;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace FlightTracker.Api.Services;
 
-public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home, TimeProvider clock)
+public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home, RouteCache routeCache, TimeProvider clock)
 {
     // A plane counts as "live" if we got a position for it in this window.
     public static readonly TimeSpan LiveWindow = TimeSpan.FromMinutes(2);
@@ -35,6 +36,8 @@ public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home,
                 r.Aircraft.Callsign,
                 r.Aircraft.Registration,
                 r.Aircraft.TypeCode,
+                r.Aircraft.Manufacturer,
+                r.Aircraft.Model,
                 r.Aircraft.Operator,
                 r.Latest!.Latitude,
                 r.Latest.Longitude,
@@ -42,7 +45,8 @@ public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home,
                 r.Latest.SpeedKts,
                 r.Latest.Heading,
                 r.Latest.VerticalRate,
-                r.Latest.Time))
+                r.Latest.Time,
+                FindRoute(r.Aircraft.Callsign)))
             .OrderBy(p => p.Callsign ?? p.Icao24)
             .ToList();
     }
@@ -82,9 +86,15 @@ public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home,
             aircraft.Callsign,
             aircraft.Registration,
             aircraft.TypeCode,
+            aircraft.Manufacturer,
+            aircraft.Model,
             aircraft.Operator,
             aircraft.FirstSeen,
             aircraft.LastSeen,
             points);
     }
+
+    // Routes come from the in-memory cache that AircraftDetailsLookup fills.
+    private FlightRoute? FindRoute(string? callsign) =>
+        callsign is not null && routeCache.TryGet(callsign, out var route) ? route : null;
 }
