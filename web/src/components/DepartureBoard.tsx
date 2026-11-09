@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import type { LivePlane } from '../api/types'
+import { useThrottledValue } from '../hooks/useThrottledValue'
 import { airlineName, formatAltitude, formatDistance } from '../lib/describe'
 import { skyPositionOf } from '../lib/lookUp'
 import { SplitFlapText } from './SplitFlap'
@@ -27,15 +28,19 @@ function boardDistance(km: number): string {
 
 // The 6 planes closest to home, on a split-flap board.
 export function DepartureBoard({ planes, selectedIcao, reducedMotion, onSelectPlane }: DepartureBoardProps) {
+  // During a fast replay the planes change several times a second. A flap needs about a third of a
+  // second to turn, so the board takes at most one update every 1.5 seconds.
+  const boardPlanes = useThrottledValue(planes, 1500)
+
   // Distances use each plane's last report (not the moving guess), so the board only changes
   // when new data arrives instead of flipping every second.
   const nearest = useMemo(
     () =>
-      planes
+      boardPlanes
         .map((plane) => skyPositionOf(plane, Date.parse(plane.lastSeen)))
         .sort((a, b) => a.distanceKm - b.distanceKm)
         .slice(0, ROWS),
-    [planes],
+    [boardPlanes],
   )
 
   return (

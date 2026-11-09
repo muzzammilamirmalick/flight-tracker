@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../config'
-import type { LivePlane, ReceiverStatus, TodayStats, Trail } from './types'
+import type { LivePlane, ReceiverStatus, ReplayPoint, TodayStats, Trail } from './types'
 
 async function getJson<T>(path: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, { signal })
@@ -23,4 +23,10 @@ export function fetchReceiverStatus(signal?: AbortSignal): Promise<ReceiverStatu
 
 export function fetchTodayStats(signal?: AbortSignal): Promise<TodayStats> {
   return getJson<TodayStats>('/api/stats', signal)
+}
+
+export function fetchReplay(fromMs: number, toMs: number, signal?: AbortSignal): Promise<ReplayPoint[]> {
+  const from = encodeURIComponent(new Date(fromMs).toISOString())
+  const to = encodeURIComponent(new Date(toMs).toISOString())
+  return getJson<ReplayPoint[]>(`/api/replay?from=${from}&to=${to}`, signal)
 }

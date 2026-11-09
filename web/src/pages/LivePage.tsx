@@ -7,29 +7,37 @@ import { LookUpCard } from '../components/LookUpCard'
 import { NavLinks } from '../components/NavLinks'
 import { PlaneDetailCard } from '../components/PlaneDetailCard'
 import { ReceiverStatus } from '../components/ReceiverStatus'
+import { ReplayTimeline } from '../components/ReplayTimeline'
 import { StatusBanner } from '../components/StatusBanner'
 import { useLivePlanes } from '../hooks/useLivePlanes'
 import { useNow } from '../hooks/useNow'
 import { useReceiverStatus } from '../hooks/useReceiverStatus'
+import { useReplay } from '../hooks/useReplay'
 import { TRAIL_MINUTES, useTrails } from '../hooks/useTrails'
 import { closestPlane, skyPositionOf } from '../lib/lookUp'
 import { buildLiveTrailLines, predictPosition } from '../lib/planeMotion'
 import styles from './LivePage.module.css'
 
+const TRAIL_MS = TRAIL_MINUTES * 60_000
+
 export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
-  const { planes, status, lastPlaneSeenAt } = useLivePlanes()
+  const live = useLivePlanes()
   const receiver = useReceiverStatus()
-  const trails = useTrails(true)
+  const replay = useReplay(TRAIL_MS)
+  const trails = useTrails(!replay.active)
   const [selectedIcao, setSelectedIcao] = useState<string | null>(null)
 
   // The plane the Look Up card is showing when nothing is picked. Kept so the card does not flicker.
   const [closestIcao, setClosestIcao] = useState<string | null>(null)
 
-  // Planes keep moving between reports, so work out where to look once a second.
+  // While replaying, everything on the page shows the replay time instead of now.
   const now = useNow(1000)
+  const planes = replay.active ? replay.planes : live.planes
+  const viewTime = replay.active ? replay.timeMs : now
+
   const selectedPlane = planes.find((plane) => plane.icao24 === selectedIcao) ?? null
-  const closest = useMemo(() => closestPlane(planes, now, closestIcao), [planes, now, closestIcao])
-  const selectedSky = selectedPlane ? skyPositionOf(selectedPlane, now) : null
+  const closest = useMemo(() => closestPlane(planes, viewTime, closestIcao), [planes, viewTime, closestIcao])
+  const selectedSky = selectedPlane ? skyPositionOf(selectedPlane, viewTime) : null
   const target = selectedSky ?? closest
 
   const newClosestIcao = closest?.plane.icao24 ?? null
@@ -38,7 +46,10 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
   }
 
   const closeDetails = useCallback(() => setSelectedIcao(null), [])
-  const getTrailLines = useCallback((nowMs: number) => buildLiveTrailLines(planes, trails, nowMs), [planes, trails])
+  const liveTrailLines = useCallback(
+    (nowMs: number) => buildLiveTrailLines(live.planes, trails, nowMs),
+    [live.planes, trails],
+  )
 
   return (
     <>
@@ -47,21 +58,22 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
         selectedIcao={selectedPlane?.icao24 ?? null}
         reducedMotion={reducedMotion}
         onSelectPlane={setSelectedIcao}
-        positionAt={predictPosition}
-        getTrailLines={getTrailLines}
-        trailMaxAgeMs={TRAIL_MINUTES * 60_000}
+        positionAt={replay.active ? replay.positionAt : predictPosition}
+        getTrailLines={replay.active ? replay.getTrailLines : liveTrailLines}
+        trailMaxAgeMs={TRAIL_MS}
       />
 
       <main className={styles.overlay}>
         <h1 className={styles.visuallyHidden}>My Sky: planes over my home in Hamilton</h1>
-        <StatusBanner status={status} />
+        {!replay.active && <StatusBanner status={live.status} />}
         <LookUpCard
           target={target}
           isSelected={selectedPlane !== null}
-          status={status}
-          lastPlaneSeenAt={lastPlaneSeenAt}
+          status={live.status}
+          lastPlaneSeenAt={live.lastPlaneSeenAt}
           reducedMotion={reducedMotion}
           onShowClosest={closeDetails}
+          replayTimeMs={replay.active ? replay.timeMs : null}
         />
       </main>
 
@@ -79,6 +91,10 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
         />
       </aside>
 
+      <div className={styles.timeline}>
+        <ReplayTimeline replay={replay} nowMs={now} />
+      </div>
+
       <AltitudeLegend />
 
       <AnimatePresence>
@@ -86,7 +102,7 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
           <PlaneDetailCard
             key="detail"
             target={selectedSky}
-            nowMs={now}
+            nowMs={viewTime}
             reducedMotion={reducedMotion}
             onClose={closeDetails}
           />

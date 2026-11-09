@@ -48,6 +48,18 @@ public record TrailDto(string Icao24, List<TrailPointDto> Points);
 
 public record TrailPointDto(DateTime Time, double Latitude, double Longitude, int? AltitudeFt);
 
+// One sighting for the day replay. Sorted by plane, then time.
+public record ReplayPointDto(
+    string Icao24,
+    string? Callsign,
+    string? TypeCode,
+    DateTime Time,
+    double Latitude,
+    double Longitude,
+    int? AltitudeFt,
+    double? SpeedKts,
+    double? Heading);
+
 public record StatsDto(
     DateOnly Date,
     int PlanesToday,

@@ -86,6 +86,7 @@ app.MapGet("/api/health", () => new HealthResponse("Flight tracker is running", 
 app.MapPlaneEndpoints();
 app.MapStatsEndpoints();
 app.MapReceiverEndpoints();
+app.MapReplayEndpoints();
 
 app.Run();
 

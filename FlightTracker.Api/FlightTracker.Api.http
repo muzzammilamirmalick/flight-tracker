@@ -24,6 +24,10 @@ Accept: application/json
 GET {{FlightTracker.Api_HostAddress}}/api/stats
 Accept: application/json
 
+### Sightings in a time range, for the day replay (at most 2 hours)
+GET {{FlightTracker.Api_HostAddress}}/api/replay?from=2026-11-09T22:00:00Z&to=2026-11-09T23:00:00Z
+Accept: application/json
+
 ### Receiver status: source, online, message rate, plane count
 GET {{FlightTracker.Api_HostAddress}}/api/receiver
 Accept: application/json

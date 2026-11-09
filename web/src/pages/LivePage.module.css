@@ -59,6 +59,35 @@
   }
 }
 
+/* Replay controls along the bottom. */
+.timeline {
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+  width: min(640px, calc(100% - 24px));
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.timeline > * {
+  pointer-events: auto;
+}
+
+@media (min-width: 900px) {
+  .timeline {
+    bottom: 24px;
+  }
+
+  /* Keep the plane details card above the replay controls. */
+  :global(:root) {
+    --detail-bottom: 132px;
+  }
+}
+
 .visuallyHidden {
   position: absolute;
   width: 1px;

@@ -114,6 +114,26 @@ public class PlaneQueries(FlightTrackerDbContext db, IOptions<HomeOptions> home,
             .ToList();
     }
 
+    // Every sighting between two times, for replaying the day on the map.
+    public async Task<List<ReplayPointDto>> GetReplayAsync(DateTime fromUtc, DateTime toUtc, CancellationToken cancellationToken)
+    {
+        return await db.Sightings
+            .Where(s => s.Time >= fromUtc && s.Time < toUtc)
+            .OrderBy(s => s.Icao24)
+            .ThenBy(s => s.Time)
+            .Select(s => new ReplayPointDto(
+                s.Icao24,
+                s.Aircraft!.Callsign,
+                s.Aircraft.TypeCode,
+                s.Time,
+                s.Latitude,
+                s.Longitude,
+                s.AltitudeFt,
+                s.SpeedKts,
+                s.Heading))
+            .ToListAsync(cancellationToken);
+    }
+
     // Routes come from the in-memory cache that AircraftDetailsLookup fills.
     private FlightRoute? FindRoute(string? callsign) =>
         callsign is not null && routeCache.TryGet(callsign, out var route) ? route : null;

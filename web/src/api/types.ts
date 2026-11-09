@@ -76,3 +76,15 @@ export interface TodayStats {
   firstPlane: RecordPlane | null
   latestPlane: RecordPlane | null
 }
+
+export interface ReplayPoint {
+  icao24: string
+  callsign: string | null
+  typeCode: string | null
+  time: string
+  latitude: number
+  longitude: number
+  altitudeFt: number | null
+  speedKts: number | null
+  heading: number | null
+}

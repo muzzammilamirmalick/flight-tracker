@@ -20,10 +20,23 @@ interface LookUpCardProps {
   lastPlaneSeenAt: Date | null
   reducedMotion: boolean
   onShowClosest: () => void
+  // Set while replaying the day. The card then describes the sky at that time.
+  replayTimeMs?: number | null
 }
 
 // Tells you where to look in the real sky to see a plane: the closest one, or the one you tapped.
-export function LookUpCard({ target, isSelected, status, lastPlaneSeenAt, reducedMotion, onShowClosest }: LookUpCardProps) {
+export function LookUpCard({
+  target,
+  isSelected,
+  status,
+  lastPlaneSeenAt,
+  reducedMotion,
+  onShowClosest,
+  replayTimeMs = null,
+}: LookUpCardProps) {
+  const replayTime = replayTimeMs === null ? null : formatClockTime(new Date(replayTimeMs))
+  const title = isSelected ? 'The plane you picked' : 'Look up'
+
   return (
     <motion.section
       className={styles.card}
@@ -34,7 +47,7 @@ export function LookUpCard({ target, isSelected, status, lastPlaneSeenAt, reduce
     >
       <header className={styles.header}>
         <h2 id="look-up-title" className={styles.title}>
-          {isSelected ? 'The plane you picked' : 'Look up'}
+          {replayTime ? `${title} at ${replayTime}` : title}
         </h2>
         {isSelected && (
           <button type="button" className={styles.textButton} onClick={onShowClosest}>
@@ -43,7 +56,7 @@ export function LookUpCard({ target, isSelected, status, lastPlaneSeenAt, reduce
         )}
       </header>
 
-      {status === 'loading' && !target ? (
+      {status === 'loading' && !target && !replayTime ? (
         <LoadingState />
       ) : target ? (
         // Keyed by plane, so switching planes fades the new one in instead of spinning the compass.
@@ -56,7 +69,7 @@ export function LookUpCard({ target, isSelected, status, lastPlaneSeenAt, reduce
           <PlaneView target={target} reducedMotion={reducedMotion} />
         </motion.div>
       ) : (
-        <EmptyState lastPlaneSeenAt={lastPlaneSeenAt} />
+        <EmptyState lastPlaneSeenAt={lastPlaneSeenAt} replayTime={replayTime} />
       )}
     </motion.section>
   )
@@ -114,7 +127,16 @@ function LoadingState() {
   )
 }
 
-function EmptyState({ lastPlaneSeenAt }: { lastPlaneSeenAt: Date | null }) {
+function EmptyState({ lastPlaneSeenAt, replayTime }: { lastPlaneSeenAt: Date | null; replayTime: string | null }) {
+  if (replayTime) {
+    return (
+      <div className={styles.empty}>
+        <p className={styles.sentence}>Quiet skies at {replayTime}.</p>
+        <p className={styles.subject}>No planes near home at this point in the day. Try another time.</p>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.empty}>
       <p className={styles.sentence}>Quiet skies right now.</p>
