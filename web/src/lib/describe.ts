@@ -1,4 +1,5 @@
 import type { LivePlane } from '../api/types'
+import { airlineFromCallsign } from './airlines'
 import { angleDifference, bearingDeg, compassName } from './geo'
 
 // Turns plane data into plain words for people who are not into aviation.
@@ -21,9 +22,10 @@ export function formatClockTime(date: Date): string {
   return date.toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' })
 }
 
-// "Air Canada Express" from the route, or the registered owner if there is no route.
+// The airline from the callsign (our own table), or the registered owner if the callsign is not a known
+// airline. Null if we are not sure, so callers can show just the callsign.
 export function airlineName(plane: LivePlane): string | null {
-  return plane.route?.airlineName ?? plane.operator
+  return airlineFromCallsign(plane.callsign) ?? plane.operator
 }
 
 // "Boeing 737-8". adsbdb sometimes already puts the maker in the model name.
