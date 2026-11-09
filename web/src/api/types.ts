@@ -52,3 +52,27 @@ export interface ReceiverStatus {
   aircraftTracked: number | null
   planesWithPosition: number
 }
+
+export interface RecordPlane {
+  icao24: string
+  callsign: string | null
+  manufacturer: string | null
+  model: string | null
+  altitudeFt: number | null
+  speedKts: number | null
+  time: string
+}
+
+export interface TodayStats {
+  date: string
+  planesToday: number
+  busiestHour: { hour: number; planes: number } | null
+  // Different planes seen in each local hour, index 0 is midnight to 1 AM.
+  planesPerHour: number[]
+  topAirlines: { code: string; planes: number }[]
+  highest: RecordPlane | null
+  lowest: RecordPlane | null
+  fastest: RecordPlane | null
+  firstPlane: RecordPlane | null
+  latestPlane: RecordPlane | null
+}

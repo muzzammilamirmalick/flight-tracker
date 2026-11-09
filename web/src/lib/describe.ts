@@ -18,8 +18,16 @@ export function formatDistance(km: number): string {
   return km < 10 ? `${km.toFixed(1)} km` : `${Math.round(km)} km`
 }
 
+// 0 is "12 AM", 13 is "1 PM".
+export function formatHour(hour: number): string {
+  const suffix = hour < 12 ? 'AM' : 'PM'
+  const twelveHour = hour % 12 === 0 ? 12 : hour % 12
+  return `${twelveHour} ${suffix}`
+}
+
+// "6:48 PM". Written as AM/PM so a sentence can end with it without a double full stop ("p.m..").
 export function formatClockTime(date: Date): string {
-  return date.toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' })
+  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
 }
 
 // The airline from the callsign (our own table), or the registered owner if the callsign is not a known

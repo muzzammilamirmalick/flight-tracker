@@ -24,29 +24,51 @@ public class StatsService(FlightTrackerDbContext db, IOptions<HomeOptions> home,
 
         var planesToday = await db.Aircraft.CountAsync(a => a.LastSeen >= startOfTodayUtc, cancellationToken);
 
-        var highest = await todaysSightings
+        var highest = await ToRecord(todaysSightings
             .Where(s => s.AltitudeFt != null)
-            .OrderByDescending(s => s.AltitudeFt)
-            .Select(s => new RecordPlaneDto(s.Icao24, s.Aircraft!.Callsign, s.AltitudeFt, s.SpeedKts, s.Time))
+            .OrderByDescending(s => s.AltitudeFt))
             .FirstOrDefaultAsync(cancellationToken);
 
-        var fastest = await todaysSightings
-            .Where(s => s.SpeedKts != null)
-            .OrderByDescending(s => s.SpeedKts)
-            .Select(s => new RecordPlaneDto(s.Icao24, s.Aircraft!.Callsign, s.AltitudeFt, s.SpeedKts, s.Time))
+        var lowest = await ToRecord(todaysSightings
+            .Where(s => s.AltitudeFt != null)
+            .OrderBy(s => s.AltitudeFt))
             .FirstOrDefaultAsync(cancellationToken);
+
+        var fastest = await ToRecord(todaysSightings
+            .Where(s => s.SpeedKts != null)
+            .OrderByDescending(s => s.SpeedKts))
+            .FirstOrDefaultAsync(cancellationToken);
+
+        var first = await ToRecord(todaysSightings.OrderBy(s => s.Time)).FirstOrDefaultAsync(cancellationToken);
+        var latest = await ToRecord(todaysSightings.OrderByDescending(s => s.Time)).FirstOrDefaultAsync(cancellationToken);
+
+        var hourly = await GetPlanesPerHourAsync(startOfTodayUtc, timeZone, cancellationToken);
 
         return new StatsDto(
             DateOnly.FromDateTime(localNow.Date),
             planesToday,
-            await GetBusiestHourAsync(startOfTodayUtc, timeZone, cancellationToken),
+            GetBusiestHour(hourly),
+            hourly,
             await GetTopAirlinesAsync(startOfTodayUtc, cancellationToken),
             highest,
-            fastest);
+            lowest,
+            fastest,
+            first,
+            latest);
     }
 
-    // The local hour with the most different planes in it.
-    private async Task<BusiestHourDto?> GetBusiestHourAsync(
+    private static IQueryable<RecordPlaneDto> ToRecord(IQueryable<Models.Sighting> sightings) =>
+        sightings.Select(s => new RecordPlaneDto(
+            s.Icao24,
+            s.Aircraft!.Callsign,
+            s.Aircraft.Manufacturer,
+            s.Aircraft.Model,
+            s.AltitudeFt,
+            s.SpeedKts,
+            s.Time));
+
+    // How many different planes were seen in each local hour today. Index 0 is midnight to 1 AM.
+    private async Task<int[]> GetPlanesPerHourAsync(
         DateTime startOfTodayUtc, TimeZoneInfo timeZone, CancellationToken cancellationToken)
     {
         // Group by UTC hour in the database. Toronto's offset is always whole hours,
@@ -62,15 +84,23 @@ public class StatsService(FlightTrackerDbContext db, IOptions<HomeOptions> home,
             })
             .ToListAsync(cancellationToken);
 
-        var busiest = hours.OrderByDescending(h => h.Planes).FirstOrDefault();
-        if (busiest is null)
+        var perHour = new int[24];
+        foreach (var hour in hours)
         {
-            return null;
+            var utcHour = DateTime.SpecifyKind(hour.Date.AddHours(hour.Hour), DateTimeKind.Utc);
+            var localHour = TimeZoneInfo.ConvertTimeFromUtc(utcHour, timeZone).Hour;
+
+            // On the day the clocks go back, two UTC hours share one local hour, so add them up.
+            perHour[localHour] += hour.Planes;
         }
 
-        var utcHour = DateTime.SpecifyKind(busiest.Date.AddHours(busiest.Hour), DateTimeKind.Utc);
-        var localHour = TimeZoneInfo.ConvertTimeFromUtc(utcHour, timeZone).Hour;
-        return new BusiestHourDto(localHour, busiest.Planes);
+        return perHour;
+    }
+
+    private static BusiestHourDto? GetBusiestHour(int[] planesPerHour)
+    {
+        var most = planesPerHour.Max();
+        return most == 0 ? null : new BusiestHourDto(Array.IndexOf(planesPerHour, most), most);
     }
 
     // Airlines are worked out from the callsign: "ACA123" belongs to ACA (Air Canada).

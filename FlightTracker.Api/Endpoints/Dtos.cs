@@ -52,13 +52,25 @@ public record StatsDto(
     DateOnly Date,
     int PlanesToday,
     BusiestHourDto? BusiestHour,
+    // Different planes seen in each local hour, index 0 is midnight to 1 AM.
+    int[] PlanesPerHour,
     List<AirlineCountDto> TopAirlines,
     RecordPlaneDto? Highest,
-    RecordPlaneDto? Fastest);
+    RecordPlaneDto? Lowest,
+    RecordPlaneDto? Fastest,
+    RecordPlaneDto? FirstPlane,
+    RecordPlaneDto? LatestPlane);
 
 // Hour is local time at home, 0 to 23.
 public record BusiestHourDto(int Hour, int Planes);
 
 public record AirlineCountDto(string Code, int Planes);
 
-public record RecordPlaneDto(string Icao24, string? Callsign, int? AltitudeFt, double? SpeedKts, DateTime Time);
+public record RecordPlaneDto(
+    string Icao24,
+    string? Callsign,
+    string? Manufacturer,
+    string? Model,
+    int? AltitudeFt,
+    double? SpeedKts,
+    DateTime Time);

@@ -101,17 +101,6 @@ export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect, p
     if (!isPresent && reducedMotion) safeToRemove?.()
   }, [isPresent, reducedMotion, safeToRemove])
 
-  function handleClick() {
-    onSelect(plane.icao24)
-    const target = drawnAt.current ?? plane
-    const camera = { center: [target.longitude, target.latitude] as [number, number], zoom: Math.max(map.getZoom(), 10) }
-    if (reducedMotion) {
-      map.jumpTo(camera)
-    } else {
-      map.flyTo({ ...camera, duration: 1400 })
-    }
-  }
-
   const name = plane.callsign ?? plane.icao24.toUpperCase()
   const airline = airlineName(plane)
   const altitude = plane.altitudeFt === null ? 'altitude unknown' : `altitude ${formatAltitude(plane.altitudeFt)}`
@@ -124,7 +113,7 @@ export function PlaneMarker({ map, plane, isSelected, reducedMotion, onSelect, p
       style={{ '--plane-color': altitudeColor(plane.altitudeFt) } as CSSProperties}
       aria-label={label}
       aria-pressed={isSelected}
-      onClick={handleClick}
+      onClick={() => onSelect(plane.icao24)}
       initial={reducedMotion ? false : { opacity: 0, scale: 0.4 }}
       animate={isPresent ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.4 }}
       transition={reducedMotion ? { duration: 0 } : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}

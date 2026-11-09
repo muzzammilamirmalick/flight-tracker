@@ -1,0 +1,238 @@
+.page {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  overflow-y: auto;
+  padding: calc(76px + env(safe-area-inset-top)) 20px 80px;
+}
+
+.header,
+.part,
+.note {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.heading {
+  margin: 0;
+  font-size: clamp(34px, 7vw, 56px);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.date {
+  margin: 8px 0 0;
+  color: var(--text-dim);
+  font-size: 17px;
+}
+
+.note {
+  color: var(--text-dim);
+  font-size: 17px;
+}
+
+.part {
+  margin-bottom: 72px;
+}
+
+.lead {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 20px;
+}
+
+.bigNumber {
+  margin: 4px 0;
+  font-family: var(--font-mono);
+  font-size: clamp(72px, 18vw, 128px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sentence {
+  margin: 0 0 22px;
+  font-size: clamp(20px, 3.4vw, 26px);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.sentence strong {
+  font-weight: 650;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* Radial chart */
+
+.radial {
+  display: grid;
+  justify-items: center;
+}
+
+.radialSvg {
+  width: min(360px, 100%);
+  height: auto;
+  overflow: visible;
+}
+
+.radialBase {
+  fill: rgba(255, 255, 255, 0.03);
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 1;
+}
+
+.radialHit {
+  fill: transparent;
+}
+
+.radialBar {
+  fill: var(--accent);
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+
+.radialBusiest,
+.radialHovered {
+  opacity: 1;
+}
+
+.radialEmpty {
+  fill: rgba(255, 255, 255, 0.3);
+}
+
+.radialLabel {
+  fill: var(--text-dim);
+  font-size: 11px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.radialCenterTitle {
+  fill: var(--text-dim);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.radialCenterValue {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  text-anchor: middle;
+}
+
+.tableToggle {
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.tableToggle summary {
+  cursor: pointer;
+}
+
+.hourTable {
+  margin-top: 8px;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+}
+
+.hourTable th,
+.hourTable td {
+  padding: 3px 14px 3px 0;
+  text-align: left;
+}
+
+/* Airline bars */
+
+.airlines {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.airline {
+  display: grid;
+  grid-template-columns: minmax(110px, 180px) 1fr 40px;
+  align-items: center;
+  gap: 14px;
+  font-size: 15px;
+}
+
+.airlineTrack {
+  height: 8px;
+}
+
+.airlineBar {
+  display: block;
+  height: 100%;
+  min-width: 8px;
+  border-radius: 0 4px 4px 0;
+  background: var(--accent);
+}
+
+.airlineCount {
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+/* Record cards */
+
+.records {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.record {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.recordTitle {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.recordValue {
+  margin: 6px 0 8px;
+  font-family: var(--font-mono);
+  font-size: 26px;
+}
+
+.recordPlane {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

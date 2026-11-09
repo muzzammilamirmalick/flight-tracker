@@ -34,6 +34,28 @@ export function LiveMap({
   const containerRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
   const [styleReady, setStyleReady] = useState(false)
+  const planesRef = useRef(planes)
+  const positionAtRef = useRef(positionAt)
+
+  useEffect(() => {
+    planesRef.current = planes
+    positionAtRef.current = positionAt
+  }, [planes, positionAt])
+
+  // When a plane is picked (on the map or on the board), fly the camera to it.
+  useEffect(() => {
+    if (!map || !selectedIcao) return
+    const plane = planesRef.current.find((p) => p.icao24 === selectedIcao)
+    if (!plane) return
+
+    const position = positionAtRef.current(plane, Date.now())
+    const camera = { center: [position.longitude, position.latitude] as [number, number], zoom: Math.max(map.getZoom(), 10) }
+    if (reducedMotion) {
+      map.jumpTo(camera)
+    } else {
+      map.flyTo({ ...camera, duration: 1400 })
+    }
+  }, [map, selectedIcao, reducedMotion])
 
   // Create the map once.
   useEffect(() => {

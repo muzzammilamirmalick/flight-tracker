@@ -3,56 +3,11 @@
   min-height: 100dvh;
 }
 
-/* Phone first: the card sits across the top of the map. */
-.overlay {
+/* On the story page the links sit at the top centre on every screen size. */
+.storyNav {
   position: fixed;
   z-index: 10;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: calc(12px + env(safe-area-inset-top)) 12px 0;
-  pointer-events: none;
-}
-
-.overlay > * {
-  pointer-events: auto;
-}
-
-/* Desktop: the card floats on the left side. */
-@media (min-width: 900px) {
-  .overlay {
-    right: auto;
-    width: 400px;
-    padding: 24px 0 0 24px;
-  }
-}
-
-/* Right hand column on desktop. On phones these go in the bottom sheet instead. */
-.side {
-  display: none;
-}
-
-@media (min-width: 900px) {
-  .side {
-    position: fixed;
-    z-index: 10;
-    top: 24px;
-    right: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 390px;
-  }
-}
-
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  top: calc(16px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
 }
