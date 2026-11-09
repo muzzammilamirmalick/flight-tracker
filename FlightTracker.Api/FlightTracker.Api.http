@@ -1,0 +1,7 @@
+@FlightTracker.Api_HostAddress = http://localhost:5158
+
+### Check that the API is running
+GET {{FlightTracker.Api_HostAddress}}/api/health
+Accept: application/json
+
+###
