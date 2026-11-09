@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
-import { useReducedMotion } from 'motion/react'
+import { useCallback, useMemo, useState } from 'react'
+import { AnimatePresence, useReducedMotion } from 'motion/react'
 import { AltitudeLegend } from './components/AltitudeLegend'
 import { LiveMap } from './components/LiveMap'
 import { LookUpCard } from './components/LookUpCard'
+import { PlaneDetailCard } from './components/PlaneDetailCard'
 import { StatusBanner } from './components/StatusBanner'
 import { useLivePlanes } from './hooks/useLivePlanes'
 import { useNow } from './hooks/useNow'
@@ -21,7 +22,10 @@ export default function App() {
   const now = useNow(1000)
   const selectedPlane = planes.find((plane) => plane.icao24 === selectedIcao) ?? null
   const closest = useMemo(() => closestPlane(planes, now, closestIcao), [planes, now, closestIcao])
-  const target = selectedPlane ? skyPositionOf(selectedPlane, now) : closest
+  const selectedSky = selectedPlane ? skyPositionOf(selectedPlane, now) : null
+  const target = selectedSky ?? closest
+
+  const closeDetails = useCallback(() => setSelectedIcao(null), [])
 
   const newClosestIcao = closest?.plane.icao24 ?? null
   if (newClosestIcao !== closestIcao) {
@@ -51,6 +55,18 @@ export default function App() {
       </main>
 
       <AltitudeLegend />
+
+      <AnimatePresence>
+        {selectedSky && (
+          <PlaneDetailCard
+            key="detail"
+            target={selectedSky}
+            nowMs={now}
+            reducedMotion={reducedMotion}
+            onClose={closeDetails}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }

@@ -50,6 +50,50 @@ export function likelyDestination(plane: LivePlane): string | null {
   return angleDifference(towardsDestination, plane.heading) <= 45 ? destination.city : null
 }
 
+// The origin is only trusted if the plane is flying away from it.
+export function likelyOrigin(plane: LivePlane): string | null {
+  const origin = plane.route?.origin
+  if (!origin?.city || origin.latitude === null || origin.longitude === null) return null
+  if (plane.heading === null) return null
+
+  const awayFromOrigin = bearingDeg({ latitude: origin.latitude, longitude: origin.longitude }, plane)
+  return angleDifference(awayFromOrigin, plane.heading) <= 60 ? origin.city : null
+}
+
+// "Toronto to Sydney", "Heading to Sydney", or null when the route data does not fit what the plane is doing.
+export function describeRoute(plane: LivePlane): string | null {
+  const destination = likelyDestination(plane)
+  if (!destination) return null
+  const origin = likelyOrigin(plane)
+  return origin ? `${origin} to ${destination}` : `Heading to ${destination}`
+}
+
+// "Climbing", "Descending" or "Level", with the rate in feet per minute.
+export function describeVerticalRate(feetPerMinute: number | null): string {
+  if (feetPerMinute === null) return 'Unknown'
+  if (Math.abs(feetPerMinute) < 300) return 'Level'
+  const rate = `${numberFormat.format(Math.round(Math.abs(feetPerMinute) / 50) * 50)} ft per minute`
+  return feetPerMinute > 0 ? `Climbing, ${rate}` : `Descending, ${rate}`
+}
+
+export function formatKnots(speedKts: number | null): string {
+  return speedKts === null ? '' : `${Math.round(speedKts)} knots`
+}
+
+export function formatHeading(heading: number | null): string {
+  return heading === null ? 'Unknown' : `${capitalize(compassName(heading))} (${Math.round(heading)}°)`
+}
+
+export function formatSecondsAgo(seconds: number): string {
+  if (seconds < 5) return 'Just now'
+  if (seconds < 90) return `${Math.round(seconds)} seconds ago`
+  return `${Math.round(seconds / 60)} minutes ago`
+}
+
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
 // "Air Canada Express Bombardier CRJ 900 heading to Sydney."
 export function describePlane(plane: LivePlane): string {
   const airline = airlineName(plane)

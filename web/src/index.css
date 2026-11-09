@@ -5,6 +5,7 @@
   --accent: #8fd3ff;
   --home: #ffd28a;
   --glass: rgba(13, 19, 37, 0.64);
+  --glass-strong: rgba(13, 19, 37, 0.86);
   --glass-border: rgba(255, 255, 255, 0.09);
 
   --font-ui: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
