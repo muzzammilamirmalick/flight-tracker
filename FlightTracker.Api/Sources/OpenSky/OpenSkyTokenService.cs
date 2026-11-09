@@ -58,8 +58,10 @@ public class OpenSkyTokenService(
 
         if (!response.IsSuccessStatusCode)
         {
+            // The body explains why, for example {"error":"invalid_client"}. It never contains our secret.
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
             throw new HttpRequestException(
-                $"OpenSky token request failed with status {(int)response.StatusCode}. " +
+                $"OpenSky token request failed with status {(int)response.StatusCode}: {Shorten(body)}. " +
                 "Check OpenSky:ClientId and OpenSky:ClientSecret.");
         }
 
@@ -74,6 +76,9 @@ public class OpenSkyTokenService(
 
         logger.LogInformation("Got a new OpenSky token, valid for {Minutes} minutes", (int)lifetime.TotalMinutes);
     }
+
+    private static string Shorten(string text) =>
+        text.Length <= 300 ? text : text[..300] + "...";
 
     private record TokenResponse(
         [property: JsonPropertyName("access_token")] string AccessToken,
