@@ -44,10 +44,17 @@ builder.Services.AddSingleton<RouteCache>();
 builder.Services.AddHostedService<AircraftDetailsLookup>();
 
 // Let the React app call the API from its own address (the Vite dev server on the PC).
+// In Development any localhost port is fine, because Vite moves to another port when 5173 is busy.
 const string WebAppCors = "WebApp";
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+var allowAnyLocalhost = builder.Environment.IsDevelopment();
 builder.Services.AddCors(options =>
-    options.AddPolicy(WebAppCors, policy => policy.WithOrigins(allowedOrigins).AllowAnyHeader().WithMethods("GET")));
+    options.AddPolicy(WebAppCors, policy => policy
+        .SetIsOriginAllowed(origin =>
+            allowedOrigins.Contains(origin) ||
+            (allowAnyLocalhost && Uri.TryCreate(origin, UriKind.Absolute, out var uri) && uri.Host == "localhost"))
+        .AllowAnyHeader()
+        .WithMethods("GET")));
 
 builder.Services.AddOpenApi();
 
