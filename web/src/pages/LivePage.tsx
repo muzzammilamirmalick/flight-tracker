@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { AltitudeLegend } from '../components/AltitudeLegend'
+import { BottomSheet } from '../components/BottomSheet'
 import { DepartureBoard } from '../components/DepartureBoard'
 import { LiveMap } from '../components/LiveMap'
 import { LookUpCard } from '../components/LookUpCard'
@@ -10,6 +11,7 @@ import { ReceiverStatus } from '../components/ReceiverStatus'
 import { ReplayTimeline } from '../components/ReplayTimeline'
 import { StatusBanner } from '../components/StatusBanner'
 import { useLivePlanes } from '../hooks/useLivePlanes'
+import { PHONE_QUERY, useMediaQuery } from '../hooks/useMediaQuery'
 import { useNow } from '../hooks/useNow'
 import { useReceiverStatus } from '../hooks/useReceiverStatus'
 import { useReplay } from '../hooks/useReplay'
@@ -20,7 +22,12 @@ import styles from './LivePage.module.css'
 
 const TRAIL_MS = TRAIL_MINUTES * 60_000
 
+// Room taken by the cards, so the camera keeps a picked plane in the open part of the map.
+const PHONE_PADDING = { top: 300, bottom: 200, left: 24, right: 24 }
+const DESKTOP_PADDING = { top: 80, bottom: 160, left: 440, right: 440 }
+
 export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
+  const isPhone = useMediaQuery(PHONE_QUERY)
   const live = useLivePlanes()
   const receiver = useReceiverStatus()
   const replay = useReplay(TRAIL_MS)
@@ -61,6 +68,8 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
         positionAt={replay.active ? replay.positionAt : predictPosition}
         getTrailLines={replay.active ? replay.getTrailLines : liveTrailLines}
         trailMaxAgeMs={TRAIL_MS}
+        cameraPadding={isPhone ? PHONE_PADDING : DESKTOP_PADDING}
+        initialZoom={isPhone ? 8 : 9}
       />
 
       <main className={styles.overlay}>
@@ -77,25 +86,53 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
         />
       </main>
 
-      <div className={styles.topNav}>
-        <NavLinks route="live" />
-      </div>
-
-      <aside className={styles.side} aria-label="Planes near my home">
-        <ReceiverStatus status={receiver} />
-        <DepartureBoard
+      {isPhone ? (
+        // Phone: everything except the Look Up card lives in a sheet you can swipe up.
+        <BottomSheet
+          label="Antenna status, replay and nearest planes"
+          reducedMotion={reducedMotion}
+          peek={
+            <>
+              <ReceiverStatus status={receiver} />
+              <div className={styles.peekRow}>
+                <NavLinks route="live" compact />
+                {!replay.active && <ReplayTimeline replay={replay} nowMs={now} />}
+              </div>
+              {replay.active && <ReplayTimeline replay={replay} nowMs={now} />}
+            </>
+          }
+        >
+          <DepartureBoard
           planes={planes}
           selectedIcao={selectedPlane?.icao24 ?? null}
           reducedMotion={reducedMotion}
           onSelectPlane={setSelectedIcao}
         />
-      </aside>
+          <AltitudeLegend inline />
+        </BottomSheet>
+      ) : (
+        <>
+          <div className={styles.topNav}>
+            <NavLinks route="live" />
+          </div>
 
-      <div className={styles.timeline}>
-        <ReplayTimeline replay={replay} nowMs={now} />
-      </div>
+          <aside className={styles.side} aria-label="Planes near my home">
+            <ReceiverStatus status={receiver} />
+            <DepartureBoard
+              planes={planes}
+              selectedIcao={selectedPlane?.icao24 ?? null}
+              reducedMotion={reducedMotion}
+              onSelectPlane={setSelectedIcao}
+            />
+          </aside>
 
-      <AltitudeLegend />
+          <div className={styles.timeline}>
+            <ReplayTimeline replay={replay} nowMs={now} />
+          </div>
+
+          <AltitudeLegend />
+        </>
+      )}
 
       <AnimatePresence>
         {selectedSky && (

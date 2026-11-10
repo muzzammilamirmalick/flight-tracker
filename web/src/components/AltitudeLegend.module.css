@@ -41,3 +41,11 @@
     bottom: 24px;
   }
 }
+
+.inline {
+  position: static;
+  width: auto;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}

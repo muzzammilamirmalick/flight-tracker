@@ -94,6 +94,19 @@
   }
 }
 
+/* Smaller flaps on narrow phones, so the whole board fits. */
+@media (max-width: 440px) {
+  .text {
+    gap: 1px;
+  }
+
+  .char {
+    --flap-height: 20px;
+    width: 12px;
+    font-size: 12.5px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .flipTop,
   .flipBottom {

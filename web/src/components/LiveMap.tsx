@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Map as MapLibreMap, Marker } from 'maplibre-gl'
+import { Map as MapLibreMap, Marker, type PaddingOptions } from 'maplibre-gl'
 import { AnimatePresence } from 'motion/react'
 import type { LivePlane } from '../api/types'
 import { HOME, MAP_STYLE_URL } from '../config'
@@ -20,6 +20,9 @@ interface LiveMapProps {
   positionAt: (plane: LivePlane, nowMs: number) => LatLon
   getTrailLines: (nowMs: number) => TrailLinePoint[][]
   trailMaxAgeMs: number
+  // Space taken by cards on each side, so a picked plane is flown to the visible part of the map.
+  cameraPadding: PaddingOptions
+  initialZoom: number
 }
 
 export function LiveMap({
@@ -30,17 +33,22 @@ export function LiveMap({
   positionAt,
   getTrailLines,
   trailMaxAgeMs,
+  cameraPadding,
+  initialZoom,
 }: LiveMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<MapLibreMap | null>(null)
   const [styleReady, setStyleReady] = useState(false)
   const planesRef = useRef(planes)
   const positionAtRef = useRef(positionAt)
+  const paddingRef = useRef(cameraPadding)
+  const initialZoomRef = useRef(initialZoom)
 
   useEffect(() => {
     planesRef.current = planes
     positionAtRef.current = positionAt
-  }, [planes, positionAt])
+    paddingRef.current = cameraPadding
+  }, [planes, positionAt, cameraPadding])
 
   // When a plane is picked (on the map or on the board), fly the camera to it.
   useEffect(() => {
@@ -49,7 +57,11 @@ export function LiveMap({
     if (!plane) return
 
     const position = positionAtRef.current(plane, Date.now())
-    const camera = { center: [position.longitude, position.latitude] as [number, number], zoom: Math.max(map.getZoom(), 10) }
+    const camera = {
+      center: [position.longitude, position.latitude] as [number, number],
+      zoom: Math.max(map.getZoom(), 10),
+      padding: paddingRef.current,
+    }
     if (reducedMotion) {
       map.jumpTo(camera)
     } else {
@@ -63,7 +75,7 @@ export function LiveMap({
       container: containerRef.current!,
       style: MAP_STYLE_URL,
       center: [HOME.longitude, HOME.latitude],
-      zoom: 9,
+      zoom: initialZoomRef.current,
       minZoom: 6,
       maxZoom: 14,
       // North always stays up, so plane headings are easy to read.
