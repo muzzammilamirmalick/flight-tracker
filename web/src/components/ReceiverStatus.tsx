@@ -3,6 +3,8 @@ import styles from './ReceiverStatus.module.css'
 
 interface ReceiverStatusProps {
   status: ReceiverStatusData | null
+  // How many planes are on the live map, so the chip and the map always agree.
+  planeCount: number
 }
 
 // Whole numbers for a busy receiver, one decimal for a quiet one, so 0.3 does not show as 0.
@@ -11,7 +13,7 @@ function formatRate(perSecond: number): string {
 }
 
 // A small chip that says where the data comes from, so people know this is my own hardware.
-export function ReceiverStatus({ status }: ReceiverStatusProps) {
+export function ReceiverStatus({ status, planeCount }: ReceiverStatusProps) {
   const fromAntenna = status?.source !== 'OpenSky'
   const online = status?.online ?? false
 
@@ -25,8 +27,8 @@ export function ReceiverStatus({ status }: ReceiverStatusProps) {
     const rate = status.messagesPerSecond
     details.push(`${formatRate(rate)} ${rate === 1 ? 'message' : 'messages'} a second`)
   }
-  if (online && status) {
-    details.push(`${status.planesWithPosition} ${status.planesWithPosition === 1 ? 'plane' : 'planes'}`)
+  if (online) {
+    details.push(`${planeCount} ${planeCount === 1 ? 'plane' : 'planes'}`)
   }
 
   return (

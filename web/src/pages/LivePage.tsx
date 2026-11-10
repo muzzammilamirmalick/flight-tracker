@@ -93,7 +93,7 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
           reducedMotion={reducedMotion}
           peek={
             <>
-              <ReceiverStatus status={receiver} />
+              <ReceiverStatus status={receiver} planeCount={live.planes.length} />
               <div className={styles.peekRow}>
                 <NavLinks route="live" compact />
                 {!replay.active && <ReplayTimeline replay={replay} nowMs={now} />}
@@ -117,7 +117,7 @@ export function LivePage({ reducedMotion }: { reducedMotion: boolean }) {
           </div>
 
           <aside className={styles.side} aria-label="Planes near my home">
-            <ReceiverStatus status={receiver} />
+            <ReceiverStatus status={receiver} planeCount={live.planes.length} />
             <DepartureBoard
               planes={planes}
               selectedIcao={selectedPlane?.icao24 ?? null}
