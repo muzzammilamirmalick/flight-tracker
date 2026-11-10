@@ -25,6 +25,14 @@ describe('replay tracks', () => {
     expect(middle?.latitude).toBeCloseTo(43.1, 6)
   })
 
+  it('works out the climb rate from the altitude change', () => {
+    const climbing = groupIntoTracks([
+      { ...point('cccccc', '2026-11-09T20:00:00Z', 43.0), altitudeFt: 10000 },
+      { ...point('cccccc', '2026-11-09T20:00:30Z', 43.1), altitudeFt: 11000 },
+    ])
+    expect(positionOnTrack(climbing.get('cccccc')!, Date.parse('2026-11-09T20:00:10Z'))?.verticalRate).toBe(2000)
+  })
+
   it('has no position before the first sighting or long after the last one', () => {
     const track = tracks.get('aaaaaa')!
     expect(positionOnTrack(track, Date.parse('2026-11-09T19:59:00Z'))).toBeNull()

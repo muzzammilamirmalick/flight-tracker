@@ -48,7 +48,7 @@ export function PlaneDetailCard({ target, nowMs, reducedMotion, onClose }: Plane
 
   const rows: [string, string][] = [
     ['Airline', airlineName(plane) ?? 'Not sure'],
-    ['Aircraft', aircraft ? `${aircraft}${plane.typeCode ? ` (${plane.typeCode})` : ''}` : 'Unknown'],
+    ['Aircraft', aircraft ? `${aircraft}${plane.typeCode ? ` (${plane.typeCode})` : ''}` : (plane.typeCode ?? 'Unknown')],
     ['Altitude', formatAltitude(plane.altitudeFt)],
     ['Going', describeVerticalRate(plane.verticalRate)],
     ['Speed', `${formatSpeed(plane.speedKts)}${plane.speedKts === null ? '' : `, ${formatKnots(plane.speedKts)}`}`],

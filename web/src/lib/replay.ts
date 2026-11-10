@@ -66,7 +66,7 @@ function lastPointBefore(points: TrackPoint[], timeMs: number): number {
 
 // Where a plane was at `timeMs`, blending between the two sightings around that moment.
 // Null if we did not have the plane at that time.
-export function positionOnTrack(track: Track, timeMs: number): TrackPoint | null {
+export function positionOnTrack(track: Track, timeMs: number): (TrackPoint & { verticalRate: number | null }) | null {
   const index = lastPointBefore(track.points, timeMs)
   if (index === -1) return null
 
@@ -74,7 +74,14 @@ export function positionOnTrack(track: Track, timeMs: number): TrackPoint | null
   if (timeMs - before.timeMs > MAX_GAP_MS) return null
 
   const after = track.points[index + 1]
-  if (!after || after.timeMs - before.timeMs > MAX_GAP_MS) return { ...before, timeMs }
+  if (!after || after.timeMs - before.timeMs > MAX_GAP_MS) return { ...before, timeMs, verticalRate: null }
+
+  // Feet per minute, from the altitude change between the two sightings.
+  const minutes = (after.timeMs - before.timeMs) / 60_000
+  const verticalRate =
+    before.altitudeFt !== null && after.altitudeFt !== null && minutes > 0
+      ? Math.round((after.altitudeFt - before.altitudeFt) / minutes)
+      : null
 
   const amount = (timeMs - before.timeMs) / (after.timeMs - before.timeMs)
   const blend = (a: number, b: number) => a + (b - a) * amount
@@ -85,6 +92,7 @@ export function positionOnTrack(track: Track, timeMs: number): TrackPoint | null
     altitudeFt: before.altitudeFt !== null && after.altitudeFt !== null ? Math.round(blend(before.altitudeFt, after.altitudeFt)) : before.altitudeFt,
     speedKts: before.speedKts,
     heading: before.heading,
+    verticalRate,
   }
 }
 
@@ -107,7 +115,7 @@ export function planesAt(tracks: Map<string, Track>, timeMs: number): LivePlane[
       altitudeFt: point.altitudeFt,
       speedKts: point.speedKts,
       heading: point.heading,
-      verticalRate: null,
+      verticalRate: point.verticalRate,
       lastSeen: new Date(timeMs).toISOString(),
       route: null,
     })
