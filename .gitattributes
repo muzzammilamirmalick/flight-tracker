@@ -1,0 +1,5 @@
+# Files that get copied to the Pi must keep Linux line endings (LF) even on Windows.
+# A Windows line ending (CRLF) would add a hidden character to every setting, including the database password.
+deploy/flighttracker.service text eol=lf
+deploy/*.env.example text eol=lf
+*.sh text eol=lf
