@@ -91,3 +91,6 @@ app.MapReplayEndpoints();
 app.Run();
 
 record HealthResponse(string Status, DateTimeOffset ServerTime);
+
+// Lets the test project start the API in memory (WebApplicationFactory<Program>).
+public partial class Program;
