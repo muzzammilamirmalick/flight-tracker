@@ -5,7 +5,10 @@ interface ReceiverStatusProps {
   status: ReceiverStatusData | null
 }
 
-const numberFormat = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 })
+// Whole numbers for a busy receiver, one decimal for a quiet one, so 0.3 does not show as 0.
+function formatRate(perSecond: number): string {
+  return perSecond.toLocaleString('en-CA', { maximumFractionDigits: perSecond < 10 ? 1 : 0 })
+}
 
 // A small chip that says where the data comes from, so people know this is my own hardware.
 export function ReceiverStatus({ status }: ReceiverStatusProps) {
@@ -19,7 +22,8 @@ export function ReceiverStatus({ status }: ReceiverStatusProps) {
 
   const details: string[] = []
   if (online && status?.messagesPerSecond !== null && status?.messagesPerSecond !== undefined) {
-    details.push(`${numberFormat.format(status.messagesPerSecond)} messages a second`)
+    const rate = status.messagesPerSecond
+    details.push(`${formatRate(rate)} ${rate === 1 ? 'message' : 'messages'} a second`)
   }
   if (online && status) {
     details.push(`${status.planesWithPosition} ${status.planesWithPosition === 1 ? 'plane' : 'planes'}`)
