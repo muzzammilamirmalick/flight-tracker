@@ -2,7 +2,9 @@
 
 My Sky shows what is flying over my home in Hamilton, Ontario, using planes picked up by my own ADS-B receiver on a Raspberry Pi. It is made for a normal person standing outside: it tells you which way to look and how high, and what the plane is, in plain words.
 
-![Live map on desktop](docs/screenshots/desktop-live.png)
+![Replaying the 6 PM rush over Hamilton](docs/screenshots/desktop-replay.png)
+
+*Replaying the 6 PM rush over Hamilton, from my own antenna.*
 
 ## What it does
 
@@ -22,7 +24,7 @@ My Sky shows what is flying over my home in Hamilton, Ontario, using planes pick
 | --- | --- |
 | ![Plane details on desktop](docs/screenshots/desktop-plane-details.png) | ![Phone](docs/screenshots/phone-live.png) |
 | ![Today over Hamilton](docs/screenshots/desktop-today.png) | ![Phone with the board open](docs/screenshots/phone-board.png) |
-| ![Day replay](docs/screenshots/desktop-replay.png) | |
+| ![Live on a quiet evening](docs/screenshots/desktop-live.png) | |
 
 ## How it fits together
 
