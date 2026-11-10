@@ -2,7 +2,9 @@
 
 const env = import.meta.env
 
-export const API_BASE_URL: string = env.VITE_API_BASE_URL ?? 'http://localhost:5158'
+// In development the API runs on its own port. In the built app (on the Pi) the API serves the page,
+// so requests go to the same address and the base URL is empty.
+export const API_BASE_URL: string = env.VITE_API_BASE_URL ?? (import.meta.env.DEV ? 'http://localhost:5158' : '')
 
 // My home point. The Look Up card measures directions and angles from here.
 export const HOME = {

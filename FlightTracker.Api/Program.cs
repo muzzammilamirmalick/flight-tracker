@@ -81,6 +81,14 @@ app.UseExceptionHandler(new ExceptionHandlerOptions
 // Give empty error responses (like a 404) the same problem JSON body as the others.
 app.UseStatusCodePages();
 
+// On the Pi the built React app is copied into wwwroot, so one service serves both the API and the map.
+// On the PC there is no wwwroot and the Vite dev server serves the app instead.
+if (Directory.Exists(Path.Combine(app.Environment.ContentRootPath, "wwwroot")))
+{
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+
 app.MapGet("/api/health", () => new HealthResponse("Flight tracker is running", DateTimeOffset.UtcNow))
     .WithName("GetHealth");
 app.MapPlaneEndpoints();

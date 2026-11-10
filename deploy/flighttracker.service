@@ -1,0 +1,29 @@
+# systemd service for the flight tracker on the Raspberry Pi.
+# Copy to /etc/systemd/system/flighttracker.service (see docs/pi-deploy.md).
+# No secrets in here. They live in /etc/flighttracker/flighttracker.env, which only root and the app user can read.
+
+[Unit]
+Description=Flight tracker API and map
+# Start after the network, the database and the receiver are up.
+After=network-online.target postgresql.service readsb.service
+Wants=network-online.target
+
+[Service]
+User=muzzammilmalick
+WorkingDirectory=/opt/flighttracker/api
+# Check the path with "which dotnet" on the Pi and change it here if it is different.
+ExecStart=/usr/bin/dotnet /opt/flighttracker/api/FlightTracker.Api.dll
+EnvironmentFile=/etc/flighttracker/flighttracker.env
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_NOLOGO=true
+
+# Restart if it ever crashes, after 10 seconds.
+Restart=always
+RestartSec=10
+# SIGTERM lets the app shut down cleanly. Give it 30 seconds before forcing it.
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SyslogIdentifier=flighttracker
+
+[Install]
+WantedBy=multi-user.target

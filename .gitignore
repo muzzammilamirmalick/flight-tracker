@@ -437,3 +437,6 @@ appsettings.*.local.json
 
 # Playwright MCP output
 .playwright-mcp/
+
+# Output of deploy/publish.ps1
+publish/
