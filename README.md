@@ -152,4 +152,12 @@ docs/                       Pi guides and screenshots
 
 ## What I learned
 
-<!-- To fill in. -->
+This was my first time doing a lot of this, so I learned a mix of software and hardware.
+
+- How to build and use a REST API, and how the frontend and the API talk to each other.
+- How to set up a Raspberry Pi from scratch, connect to it over the network, and run my own code on it.
+- How to use a real ADS-B antenna and receiver to pick up planes myself, instead of pulling data from someone else's service.
+- How to build both the backend (C#, the database, and the background poller) and the frontend (the React map and the cards).
+- How to add animations that feel smooth, like planes gliding between updates instead of jumping.
+
+The part I am most proud of is that the data comes from my own antenna, not an API. Setting up the Pi and the receiver was the hardest part, and it taught me the most.
