@@ -15,6 +15,7 @@ My Sky shows what is flying over my home in Hamilton, Ontario, using planes pick
 - **Live sky background** that matches the real sky over Hamilton right now, from the sun position, with stars at night.
 - **Day replay** of today's traffic at 1x, 10x or 60x.
 - **"Today over Hamilton"**, the day's numbers told as a short story: planes today, the busiest hour on a 24 hour chart, top airlines, highest, fastest and lowest plane, and the first and latest plane of the day.
+- **Aviation history**, a few famous flights drawn on the same dark map: the path with numbered key points, a timeline, what happened, the cause, what changed afterwards, an embedded documentary and the sources. See [Aviation history](#aviation-history) below.
 - **Receiver status chip** showing it is live from my antenna, with the message rate and plane count.
 - Works on phones (everything except the Look Up card moves into a swipe-up sheet), with the keyboard, and with reduced motion.
 
@@ -24,7 +25,30 @@ My Sky shows what is flying over my home in Hamilton, Ontario, using planes pick
 | --- | --- |
 | ![Plane details on desktop](docs/screenshots/desktop-plane-details.png) | ![Phone](docs/screenshots/phone-live.png) |
 | ![Today over Hamilton](docs/screenshots/desktop-today.png) | ![Phone with the board open](docs/screenshots/phone-board.png) |
-| ![Live on a quiet evening](docs/screenshots/desktop-live.png) | |
+| ![Live on a quiet evening](docs/screenshots/desktop-live.png) | ![Aviation history on a phone](docs/screenshots/phone-history.png) |
+| ![Aviation history: Air Transat 236](docs/screenshots/desktop-history.png) | |
+
+## Aviation history
+
+The `#/history` page tells the story of a few well documented flights, in the factual way an accident report does: what happened, why, and what aviation changed because of it. No wreckage photos, and no "last words". Where a line from the record explains the cause, it is quoted once with its source.
+
+| Flight | Date | Main source |
+| --- | --- | --- |
+| Aloha Airlines 243 | 28 April 1988 | [NTSB AAR-89/03](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8903.pdf) |
+| Air Transat 236 | 24 August 2001 | [GPIAA final report 22/ACCID/GPIAA/2001](https://www.faa.gov/sites/faa.gov/files/2022-11/AirTransat236_AccidentReport.pdf) |
+| US Airways 1549 | 15 January 2009 | [NTSB AAR-10/03](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1003.pdf) |
+| Air France 447 | 1 June 2009 | [BEA final report](https://www.faa.gov/sites/faa.gov/files/f-cp090601.en_.pdf) |
+
+How the paths are made:
+
+- Every point on a path comes from a source: positions printed in the report (Air Transat 236 has a full position table from the flight data recorder, Air France 447 has its last reported position and wreckage site), airport and runway positions from FAA data (via AirNav) or Wikidata, and route waypoints from published navigation data.
+- When a report gives a position only as a distance and direction (for example "about 4.5 miles north-northwest of the runway 22 end"), the point is placed from that and the timeline says so.
+- Lines between points are straight. A part that is only a join between two places, not based on any position data, is drawn dashed. Each flight has a note saying what was simplified.
+- Flights I could not find good path data for (for example Swissair 111 and the Gimli Glider, whose reports show the track only as a figure) were left out rather than guessed.
+
+Other sources used: [Aviation Safety Network](https://aviation-safety.net/) and Wikipedia, linked on each flight. The documentaries are [Mentour Pilot](https://www.youtube.com/@MentourPilot) episodes, embedded from youtube-nocookie.com with a plain link underneath. Nothing is downloaded or re-hosted.
+
+To add a flight, add an entry to `web/src/data/historyFlights.json`. The tests in `web/src/lib/history.test.ts` check every entry (coordinates in range, a departure first and a final position last, https sources, a valid video id, no em dashes).
 
 ## How it fits together
 
@@ -135,7 +159,7 @@ cd web
 npm test
 ```
 
-The API tests cover the parsers, the unit and distance math, the receiver status and every endpoint (against an in-memory SQLite database, so PostgreSQL is not needed). The web tests cover the Look Up math, the airline lookup, the replay and the sun position. GitHub Actions runs both on every push and pull request.
+The API tests cover the parsers, the unit and distance math, the receiver status and every endpoint (against an in-memory SQLite database, so PostgreSQL is not needed). The web tests cover the Look Up math, the airline lookup, the replay, the sun position and the Aviation history data. GitHub Actions runs both on every push and pull request.
 
 ## Project layout
 

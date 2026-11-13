@@ -27,6 +27,8 @@ export interface HistoryFlight {
   aircraft: string
   registration: string
   route: string
+  // What the times in the timeline are in, for example "UTC".
+  timeZone: string
   outcome: string
   summary: string[]
   cause: string
@@ -34,6 +36,9 @@ export interface HistoryFlight {
   quote?: { text: string; speaker: string; time: string; source: string }
   lessons: string[]
   path: LonLat[]
+  // Index in path where the line starts following real data. Before it the line is only
+  // a straight join between two places, and the map draws it dashed.
+  sketchedUntil?: number
   pathNote: string
   keyPoints: KeyPoint[]
   video: { youtubeId: string; title: string; channel: string }

@@ -21,10 +21,23 @@ const POINT_COLORS = {
   final: '#e9eef8',
 }
 
+// The start of some paths is only a straight join between two places, not the real route.
+// That part is drawn dashed so it does not look like recorded data.
 function pathData(flight: HistoryFlight): FeatureCollection {
+  const split = flight.sketchedUntil ?? 0
+  const parts = [
+    { sketched: true, coordinates: flight.path.slice(0, split + 1) },
+    { sketched: false, coordinates: flight.path.slice(split) },
+  ]
   return {
     type: 'FeatureCollection',
-    features: [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: flight.path } }],
+    features: parts
+      .filter((part) => part.coordinates.length >= 2)
+      .map((part) => ({
+        type: 'Feature',
+        properties: { sketched: part.sketched },
+        geometry: { type: 'LineString', coordinates: part.coordinates },
+      })),
   }
 }
 
@@ -51,6 +64,7 @@ function addHistoryLayers(map: MapLibreMap) {
     id: 'history-path-glow',
     type: 'line',
     source: 'history-path',
+    filter: ['!', ['get', 'sketched']],
     layout: { 'line-join': 'round', 'line-cap': 'round' },
     paint: { 'line-color': '#8fd3ff', 'line-width': 8, 'line-opacity': 0.15, 'line-blur': 4 },
   })
@@ -59,7 +73,15 @@ function addHistoryLayers(map: MapLibreMap) {
     type: 'line',
     source: 'history-path',
     layout: { 'line-join': 'round', 'line-cap': 'round' },
+    filter: ['!', ['get', 'sketched']],
     paint: { 'line-color': '#8fd3ff', 'line-width': 2.5, 'line-opacity': 0.9 },
+  })
+  map.addLayer({
+    id: 'history-path-sketched',
+    type: 'line',
+    source: 'history-path',
+    filter: ['get', 'sketched'],
+    paint: { 'line-color': '#8fd3ff', 'line-width': 1.5, 'line-opacity': 0.5, 'line-dasharray': [2, 3] },
   })
   map.addLayer({
     id: 'history-points',
@@ -80,10 +102,11 @@ function addHistoryLayers(map: MapLibreMap) {
       'text-field': ['get', 'label'],
       'text-font': ['Noto Sans Regular'],
       'text-size': 12,
-      'text-anchor': 'left',
-      'text-offset': [0.9, 0],
-      'text-allow-overlap': true,
-      'text-max-width': 14,
+      // Try each side of the dot. Where labels would collide one is hidden; the timeline lists them all.
+      'text-variable-anchor': ['left', 'right', 'top', 'bottom'],
+      'text-radial-offset': 0.9,
+      'text-justify': 'auto',
+      'text-max-width': 30,
     },
     paint: {
       'text-color': ['get', 'color'],
@@ -101,10 +124,6 @@ export function HistoryMap({ flight, focusedPoint, reducedMotion, padding }: His
   const [styleReady, setStyleReady] = useState(false)
   const paddingRef = useRef(padding)
   const firstFlightRef = useRef(flight)
-
-  useEffect(() => {
-    paddingRef.current = padding
-  }, [padding])
 
   useEffect(() => {
     const instance = new MapLibreMap({
@@ -150,12 +169,20 @@ export function HistoryMap({ flight, focusedPoint, reducedMotion, padding }: His
   useEffect(() => {
     if (!map) return
     if (focusedPoint === null) {
-      map.fitBounds(pathBounds(flight), { padding: paddingRef.current, animate: !reducedMotion, duration: 1200 })
+      map.fitBounds(pathBounds(flight), { padding, animate: !reducedMotion, duration: 1200 })
+
+      // When the window changes size (a phone turning, or the phone and desktop layouts
+      // swapping), frame the path again once the map has measured its new size.
+      const reframe = () => map.fitBounds(pathBounds(flight), { padding, animate: false })
+      map.on('resize', reframe)
+      return () => {
+        map.off('resize', reframe)
+      }
     } else {
       const camera = {
         center: flight.keyPoints[focusedPoint].coordinates,
         zoom: Math.max(map.getZoom(), 12),
-        padding: paddingRef.current,
+        padding,
       }
       if (reducedMotion) {
         map.jumpTo(camera)
@@ -163,7 +190,7 @@ export function HistoryMap({ flight, focusedPoint, reducedMotion, padding }: His
         map.flyTo({ ...camera, duration: 1000 })
       }
     }
-  }, [map, flight, focusedPoint, reducedMotion])
+  }, [map, flight, focusedPoint, reducedMotion, padding])
 
   return (
     <div

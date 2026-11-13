@@ -19,6 +19,12 @@ describe('history flight data', () => {
         }
       })
 
+      it('marks a dashed start that fits inside the path', () => {
+        const split = flight.sketchedUntil ?? 0
+        expect(split).toBeGreaterThanOrEqual(0)
+        expect(split).toBeLessThan(flight.path.length - 1)
+      })
+
       it('starts with a departure and ends with a final position', () => {
         expect(flight.keyPoints[0].kind).toBe('departure')
         expect(flight.keyPoints.at(-1)?.kind).toBe('final')

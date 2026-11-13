@@ -152,7 +152,9 @@ function FlightStory({ flight, focusedPoint, onFocusPoint }: FlightStoryProps) {
             </li>
           ))}
         </ol>
-        <p className={styles.note}>{flight.pathNote} Times are local.</p>
+        <p className={styles.note}>
+          {flight.pathNote} Times are {flight.timeZone}.
+        </p>
       </section>
 
       <section className={styles.section} aria-labelledby="what-heading">

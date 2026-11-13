@@ -1,5 +1,280 @@
 [
   {
+    "id": "aloha-243",
+    "flightNumber": "Aloha Airlines 243",
+    "date": "1988-04-28",
+    "airline": "Aloha Airlines",
+    "aircraft": "Boeing 737-200",
+    "registration": "N73711",
+    "route": "Hilo to Honolulu",
+    "timeZone": "Hawaii standard time",
+    "outcome": "One flight attendant was lost; 94 people survived",
+    "summary": [
+      "As the 737 leveled off at 24,000 feet on a short interisland flight, about 18 feet of the cabin roof and upper walls behind the entrance door tore away. A flight attendant standing in the aisle was swept out of the airplane. Seven passengers and another flight attendant were seriously injured.",
+      "The captain took control, made an emergency descent and diverted to Kahului on Maui. The left engine stopped during the approach because its control cables had been damaged. The crew landed on runway 02 about 13 minutes after the failure. After the accident, a passenger said she had seen a crack in the fuselage while boarding at Hilo, but did not mention it to anyone."
+    ],
+    "cause": "The NTSB found that Aloha Airlines' maintenance program failed to find significant disbonding and fatigue damage, which led to the failure of a lap joint and the separation of the upper fuselage. Cracks had started at many rivet holes along the joint at once. Contributing were weak supervision of maintenance, weak FAA oversight, an FAA directive that did not require inspection of all the lap joints Boeing had proposed, and the lack of a complete fix for early 737 lap joint bonding problems.",
+    "lessons": [
+      "The airplane had cracked in many places along one joint at the same time, known as multiple site damage. The NTSB asked that new airliners be fatigue tested to at least twice their planned service life, and that manufacturers find structure prone to multiple site damage and set inspections for it (A-89-67).",
+      "Interisland flights are very short, so Aloha's airplanes flew far more pressurisation cycles per flight hour than maintenance programs assumed. The NTSB asked the FAA to identify such operators and make sure their maintenance catches cycle related damage (A-89-54).",
+      "The report found inspectors missed cracks that were there to be found. The NTSB asked for formal certification and recurrent training of inspectors who do nondestructive testing (A-89-56), and for better FAA oversight of airline maintenance programs."
+    ],
+    "path": [
+      [
+        -155.04833,
+        19.72528
+      ],
+      [
+        -156.27733,
+        20.53503
+      ],
+      [
+        -156.43632,
+        20.88914
+      ]
+    ],
+    "pathNote": "Simplified: straight lines between the three documented points below. The real track and the turn onto final approach are not drawn.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff",
+        "time": "13:25",
+        "text": "Leaves Hilo for Honolulu with 89 passengers, 5 crew and an air traffic controller riding in the cockpit observer seat.",
+        "coordinates": [
+          -155.04833,
+          19.72528
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Emergency code on radar",
+        "text": "The structural failure happened at 13:46 as the airplane leveled at 24,000 feet. During the emergency descent, Honolulu Center sees the 7700 emergency code about 23 nautical miles south-southeast of Kahului Airport. The marker is placed from that distance and direction.",
+        "coordinates": [
+          -156.27733,
+          20.53503
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Landing at Kahului",
+        "time": "13:58:45",
+        "text": "Lands on runway 02 with one engine. Everyone left on board is evacuated on the runway.",
+        "coordinates": [
+          -156.43632,
+          20.88914
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "sKs3ov6hFqM",
+      "title": "How this Boeing 737 lost it’s ROOF! | Aloha Airlines flight 243",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "NTSB Aircraft Accident Report AAR-89/03",
+        "url": "https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8903.pdf"
+      },
+      {
+        "name": "Wikipedia: Aloha Airlines Flight 243",
+        "url": "https://en.wikipedia.org/wiki/Aloha_Airlines_Flight_243"
+      },
+      {
+        "name": "FAA runway end positions for PHOG (via AirNav)",
+        "url": "https://www.airnav.com/airport/PHOG"
+      }
+    ]
+  },
+  {
+    "id": "air-transat-236",
+    "flightNumber": "Air Transat 236",
+    "date": "2001-08-24",
+    "airline": "Air Transat",
+    "aircraft": "Airbus A330-243",
+    "registration": "C-GITS",
+    "route": "Toronto Pearson to Lisbon",
+    "timeZone": "UTC",
+    "outcome": "All 306 people on board survived",
+    "summary": [
+      "Over the Atlantic at night, a fuel line on the right engine cracked and began leaking. A week earlier, during an engine change, a newer style hydraulic pump and fuel tube had been fitted next to an older hydraulic tube that did not match them, and the two tubes rubbed together.",
+      "The crew saw a fuel imbalance about an hour after the leak started, but did not recognise it as a leak. They opened the crossfeed to balance the tanks, which sent fuel from the good left tanks to the leak, and diverted to Lajes in the Azores. Both engines stopped from fuel exhaustion, the second one 65 nautical miles out at about 34,500 feet. The crew glided for about 19 minutes and landed on runway 33. During the evacuation 2 people were seriously hurt and 16 had minor injuries."
+    ],
+    "cause": "Portugal's investigators found that a mismatched hydraulic tube and fuel tube, installed during the engine change, rubbed together and cracked the fuel tube. The crew did not identify the leak and carried out the fuel imbalance procedure from memory, which fed fuel from the left tanks to the leak. Not running the FUEL LEAK procedure was the key factor that led to fuel exhaustion.",
+    "lessons": [
+      "Airbus added a FUEL FU/FOB DISCREPANCY alert to the A330. It warns the crew when the fuel on board plus the fuel used differs from the takeoff fuel by more than 3,500 kg (Service Bulletin A330-28-3080, 2002).",
+      "France's DGAC made a revised A330 FUEL LEAK procedure mandatory (Airworthiness Directive 2002-548(B)). Transport Canada told crews about the signs of a fuel leak (CBAAC 190), and Air Transat added fuel leak scenarios to its simulator training.",
+      "Within days, Airbus and Rolls-Royce had every A330 with Trent 700 engines checked for clearance between the fuel and hydraulic lines.",
+      "On the maintenance side, the report found the engine change relied on verbal advice instead of the service bulletin that described the correct parts, and called for better planning of major component changes."
+    ],
+    "path": [
+      [
+        -79.6306,
+        43.6767
+      ],
+      [
+        -50.0,
+        45.0
+      ],
+      [
+        -40.1,
+        45.0
+      ],
+      [
+        -33.91667,
+        44.5
+      ],
+      [
+        -30.3,
+        44.05
+      ],
+      [
+        -30.13333,
+        43.98333
+      ],
+      [
+        -27.31667,
+        43.56667
+      ],
+      [
+        -23.65,
+        42.85
+      ],
+      [
+        -23.08333,
+        42.73333
+      ],
+      [
+        -22.58333,
+        42.61667
+      ],
+      [
+        -21.7,
+        41.51667
+      ],
+      [
+        -22.26667,
+        41.25
+      ],
+      [
+        -22.41667,
+        41.18333
+      ],
+      [
+        -23.68333,
+        40.55
+      ],
+      [
+        -24.45,
+        40.16667
+      ],
+      [
+        -25.4,
+        39.68333
+      ],
+      [
+        -25.93333,
+        39.38333
+      ],
+      [
+        -27.09083,
+        38.76194
+      ]
+    ],
+    "sketchedUntil": 2,
+    "pathNote": "From 04:08 on, the line joins the positions in the report's flight data table. The dashed part before that is only a straight line from Toronto to the oceanic entry point 45N 50W; the planned route went by Halifax. Airport positions are from Wikidata.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff",
+        "time": "00:52",
+        "text": "Leaves Toronto Pearson for Lisbon with 293 passengers and 13 crew.",
+        "coordinates": [
+          -79.6306,
+          43.6767
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Leak starts",
+        "time": "04:38",
+        "text": "The flight data shows fuel starting to leak from the cracked fuel line on the right engine. Nobody on board knows yet.",
+        "coordinates": [
+          -33.91667,
+          44.5
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Imbalance noticed",
+        "time": "05:33",
+        "text": "The crew sees a fuel imbalance advisory. About 12.3 tons of fuel are left.",
+        "coordinates": [
+          -23.08333,
+          42.73333
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Crossfeed opened",
+        "time": "05:36",
+        "text": "Fuel from the left tanks starts feeding across, and into the leak. At 05:45 the crew starts the diversion to Lajes.",
+        "coordinates": [
+          -22.58333,
+          42.61667
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Right engine stops",
+        "time": "06:13",
+        "text": "Flame out at 39,000 feet, about 150 miles from Lajes.",
+        "coordinates": [
+          -24.45,
+          40.16667
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Left engine stops",
+        "time": "06:26",
+        "text": "Both engines are out at about 34,500 feet, 65 nautical miles from Lajes. The glide begins.",
+        "coordinates": [
+          -25.93333,
+          39.38333
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Landing at Lajes",
+        "time": "06:45",
+        "text": "After a 360 degree turn and S-turns to lose height, crosses the runway 33 threshold at about 200 knots and stops 7,600 feet down the runway.",
+        "coordinates": [
+          -27.09083,
+          38.76194
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "9becqrhsedE",
+      "title": "The Atlantic GLIDER, Air Transat flight 236! Explained by Mentour Pilot",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "GPIAA Final Investigation Report 22/ACCID/GPIAA/2001 (FAA copy)",
+        "url": "https://www.faa.gov/sites/faa.gov/files/2022-11/AirTransat236_AccidentReport.pdf"
+      },
+      {
+        "name": "Aviation Safety Network: C-GITS",
+        "url": "https://aviation-safety.net/wikibase/323244"
+      },
+      {
+        "name": "Wikipedia: Air Transat Flight 236",
+        "url": "https://en.wikipedia.org/wiki/Air_Transat_Flight_236"
+      }
+    ]
+  },
+  {
     "id": "us-airways-1549",
     "flightNumber": "US Airways 1549",
     "date": "2009-01-15",
@@ -7,6 +282,7 @@
     "aircraft": "Airbus A320-214",
     "registration": "N106US",
     "route": "New York LaGuardia to Charlotte",
+    "timeZone": "local time in New York (EST)",
     "outcome": "All 155 people on board survived",
     "summary": [
       "About two minutes after takeoff from LaGuardia, the A320 flew into a flock of Canada geese at about 2,800 feet above the ground. Birds went into both engines and the airplane lost almost all of its thrust.",
@@ -26,11 +302,26 @@
       "The NTSB asked that every certificated airport assess its wildlife strike hazard (A-10-75). It also credited the crew's teamwork and decision making, the cabin crew's fast evacuation and the nearby ferries for everyone surviving."
     ],
     "path": [
-      [-73.88412, 40.76916],
-      [-73.87067, 40.78544],
-      [-73.90362, 40.8456],
-      [-73.9525, 40.85167],
-      [-74.0046, 40.7695]
+      [
+        -73.88412,
+        40.76916
+      ],
+      [
+        -73.87067,
+        40.78544
+      ],
+      [
+        -73.90362,
+        40.8456
+      ],
+      [
+        -73.9525,
+        40.85167
+      ],
+      [
+        -74.0046,
+        40.7695
+      ]
     ],
     "pathNote": "Simplified: straight lines between the documented points below. The real track curved. See figure 1 of the NTSB report for the radar track.",
     "keyPoints": [
@@ -39,27 +330,39 @@
         "label": "Takeoff",
         "time": "15:24:54",
         "text": "Cleared for takeoff from runway 4 at LaGuardia. The first officer is flying.",
-        "coordinates": [-73.88412, 40.76916]
+        "coordinates": [
+          -73.88412,
+          40.76916
+        ]
       },
       {
         "kind": "event",
         "label": "Bird strike",
         "time": "15:27:11",
         "text": "Flock of Canada geese at 2,818 feet above the ground, about 4.5 miles north-northwest of the runway 22 end. Both engines lose thrust. The marker is placed from that distance and direction.",
-        "coordinates": [-73.90362, 40.8456]
+        "coordinates": [
+          -73.90362,
+          40.8456
+        ]
       },
       {
         "kind": "event",
         "label": "George Washington Bridge",
         "text": "The airplane passes less than 900 feet above the bridge while gliding south over the river.",
-        "coordinates": [-73.9525, 40.85167]
+        "coordinates": [
+          -73.9525,
+          40.85167
+        ]
       },
       {
         "kind": "final",
         "label": "Ditching",
         "time": "15:30:43",
         "text": "Touchdown on the Hudson River near the Port Imperial ferry terminal in Weehawken, New Jersey.",
-        "coordinates": [-74.0046, 40.7695]
+        "coordinates": [
+          -74.0046,
+          40.7695
+        ]
       }
     ],
     "video": {
@@ -83,6 +386,133 @@
       {
         "name": "FAA runway end positions for KLGA (via AirNav)",
         "url": "https://www.airnav.com/airport/KLGA"
+      }
+    ]
+  },
+  {
+    "id": "air-france-447",
+    "flightNumber": "Air France 447",
+    "date": "2009-06-01",
+    "airline": "Air France",
+    "aircraft": "Airbus A330-203",
+    "registration": "F-GZCP",
+    "route": "Rio de Janeiro Galeão to Paris Charles de Gaulle",
+    "timeZone": "UTC; the flight left Rio on the evening of 31 May",
+    "outcome": "All 228 people on board died",
+    "summary": [
+      "The A330 was cruising at 35,000 feet over the Atlantic at night, in the clouds of the intertropical convergence zone. The captain had gone to rest and the two copilots were flying. Ice crystals most likely blocked the pitot probes, and for about a minute the airspeed readings were wrong. The autopilot and autothrust disconnected and the flight controls changed to alternate law.",
+      "The pilot flying made large roll inputs and pulled the nose up. The airplane climbed to about 38,000 feet, lost speed and stalled. The stall warning sounded, but the crew never recognised the stall and did not apply a recovery. The airplane descended in the stall for about three and a half minutes and hit the sea at 02:14:28. The wreckage was found almost two years later, 3,900 metres down."
+    ],
+    "cause": "France's BEA found a chain of events: a temporary inconsistency in the airspeed readings, likely from ice crystals blocking the pitot probes; control inputs that destabilised the flight path; the crew not linking the loss of airspeed to the right procedure; and the crew not identifying the approach to the stall or the stall itself, so no recovery was made.",
+    "quote": {
+      "text": "We've lost the speeds.",
+      "speaker": "The pilot not flying, 11 seconds after the autopilot disconnected",
+      "time": "02:10:16",
+      "source": "BEA final report, page 22"
+    },
+    "lessons": [
+      "The BEA made 41 safety recommendations covering flight recorders, certification, pilot training, relief of the captain, search and rescue, air traffic control, simulators, cockpit design and oversight.",
+      "It recommended that EASA make specific and regular training mandatory for manual handling of the approach to stall and stall recovery, including at high altitude. The report noted the copilots had not been trained for this.",
+      "Finding the recorders took almost two years. The BEA recommended extending underwater locator beacons to 90 days and studied triggered transmission of flight data, so an airplane in trouble sends its data before it is lost.",
+      "It asked EASA and the FAA to evaluate requiring an angle of attack indicator that pilots can see directly, since nothing else showed the stall clearly."
+    ],
+    "path": [
+      [
+        -43.25056,
+        -22.81
+      ],
+      [
+        -32.8315,
+        -1.36083
+      ],
+      [
+        -31.87733,
+        0.44317
+      ],
+      [
+        -30.92283,
+        2.24717
+      ],
+      [
+        -30.59,
+        2.98
+      ],
+      [
+        -30.56167,
+        3.06583
+      ]
+    ],
+    "sketchedUntil": 1,
+    "pathNote": "The dashed part from Rio to INTOL is only a straight line; the real route followed the Brazilian coast. From INTOL the line joins the route waypoints named in the BEA report (INTOL, SALPU, ORARO), the last position the airplane sent, and the wreckage site. Waypoint positions are from published navigation data (OpenNav).",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff",
+        "time": "22:29",
+        "text": "Leaves Rio de Janeiro Galeão for Paris on 31 May with 216 passengers and 12 crew.",
+        "coordinates": [
+          -43.25056,
+          -22.81
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "INTOL",
+        "time": "01:35",
+        "text": "The crew leaves the Recife frequency and switches to HF radio with the Atlántico oceanic centre.",
+        "coordinates": [
+          -32.8315,
+          -1.36083
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "SALPU",
+        "time": "01:49",
+        "text": "The last point recorded on radar, at the edge of radar coverage. Light turbulence as the airplane enters the cloud layer.",
+        "coordinates": [
+          -31.87733,
+          0.44317
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Last position sent",
+        "time": "02:10:34",
+        "text": "At 02:10:05 the airspeed readings become wrong and the autopilot disconnects. The airplane's last automatic position report is sent half a minute later.",
+        "coordinates": [
+          -30.59,
+          2.98
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Wreckage site",
+        "time": "02:14:28",
+        "text": "Impact with the sea. The wreckage was found on 2 April 2011, about 6.5 nautical miles from the last reported position.",
+        "coordinates": [
+          -30.56167,
+          3.06583
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "e5AGHEUxLME",
+      "title": "TITANIC of the Skies! - The Air France 447 Accident Explained",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "BEA final report on AF 447 (English translation, FAA copy)",
+        "url": "https://www.faa.gov/sites/faa.gov/files/f-cp090601.en_.pdf"
+      },
+      {
+        "name": "BEA interim report 1 (last position report)",
+        "url": "https://bea.aero/fileadmin/documents/docspa/2009/f-cp090601e1.en/pdf/f-cp090601e1.en.pdf"
+      },
+      {
+        "name": "Wikipedia: Air France Flight 447",
+        "url": "https://en.wikipedia.org/wiki/Air_France_Flight_447"
       }
     ]
   }
