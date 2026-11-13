@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 
-export type Route = 'live' | 'today'
+export type Route = 'live' | 'today' | 'history'
 
 function readRoute(): Route {
-  return window.location.hash === '#/today' ? 'today' : 'live'
+  if (window.location.hash === '#/today') return 'today'
+  if (window.location.hash === '#/history') return 'history'
+  return 'live'
 }
 
-// Two pages, picked by the part of the address after #. Hash links work on the Pi
+// The pages, picked by the part of the address after #. Hash links work on the Pi
 // without any server setup, and the back button works too.
 export function useHashRoute(): Route {
   const [route, setRoute] = useState<Route>(readRoute)

@@ -3,6 +3,7 @@ import { NavLinks } from './components/NavLinks'
 import { SkyBackground } from './components/SkyBackground'
 import { StatsStory } from './components/StatsStory'
 import { useHashRoute } from './hooks/useHashRoute'
+import { HistoryPage } from './pages/HistoryPage'
 import { LivePage } from './pages/LivePage'
 import styles from './App.module.css'
 
@@ -13,7 +14,9 @@ export default function App() {
   return (
     <div className={styles.app}>
       <SkyBackground />
-      {route === 'today' ? (
+      {route === 'history' ? (
+        <HistoryPage reducedMotion={reducedMotion} />
+      ) : route === 'today' ? (
         <>
           <div className={styles.storyNav}>
             <NavLinks route="today" />
