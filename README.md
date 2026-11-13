@@ -15,7 +15,7 @@ My Sky shows what is flying over my home in Hamilton, Ontario, using planes pick
 - **Live sky background** that matches the real sky over Hamilton right now, from the sun position, with stars at night.
 - **Day replay** of today's traffic at 1x, 10x or 60x.
 - **"Today over Hamilton"**, the day's numbers told as a short story: planes today, the busiest hour on a 24 hour chart, top airlines, highest, fastest and lowest plane, and the first and latest plane of the day.
-- **Aviation history**, a few famous flights drawn on the same dark map: the path with numbered key points, a timeline, what happened, the cause, what changed afterwards, an embedded documentary and the sources. See [Aviation history](#aviation-history) below.
+- **Aviation history**, ten famous flights drawn on the same dark map: the path with numbered key points, a timeline, what happened, the cause, what changed afterwards, the air traffic control exchange quoted from the report (and the official recording for US Airways 1549), an embedded documentary and the sources. See [Aviation history](#aviation-history) below.
 - **Receiver status chip** showing it is live from my antenna, with the message rate and plane count.
 - Works on phones (everything except the Look Up card moves into a swipe-up sheet), with the keyboard, and with reduced motion.
 
@@ -34,21 +34,33 @@ The `#/history` page tells the story of a few well documented flights, in the fa
 
 | Flight | Date | Main source |
 | --- | --- | --- |
+| Air Florida 90 | 13 January 1982 | [NTSB AAR-82/08](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8208.pdf) |
 | Aloha Airlines 243 | 28 April 1988 | [NTSB AAR-89/03](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8903.pdf) |
+| United 232 | 19 July 1989 | [NTSB AAR-90/06](https://www.faa.gov/sites/faa.gov/files/2022-11/AccidentReportUAL232.pdf) |
+| TWA 800 | 17 July 1996 | [NTSB AAR-00/03](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR0003.pdf) |
+| Air France 4590 (Concorde) | 25 July 2000 | [BEA final report](https://www.faa.gov/sites/faa.gov/files/2022-11/Concorde_Accident_Report.pdf) |
 | Air Transat 236 | 24 August 2001 | [GPIAA final report 22/ACCID/GPIAA/2001](https://www.faa.gov/sites/faa.gov/files/2022-11/AirTransat236_AccidentReport.pdf) |
 | US Airways 1549 | 15 January 2009 | [NTSB AAR-10/03](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1003.pdf) |
+| Continental Connection (Colgan Air) 3407 | 12 February 2009 | [NTSB AAR-10/01](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1001.pdf) |
 | Air France 447 | 1 June 2009 | [BEA final report](https://www.faa.gov/sites/faa.gov/files/f-cp090601.en_.pdf) |
+| Asiana 214 | 6 July 2013 | [NTSB AAR-14/01](https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1401.pdf) |
 
 How the paths are made:
 
 - Every point on a path comes from a source: positions printed in the report (Air Transat 236 has a full position table from the flight data recorder, Air France 447 has its last reported position and wreckage site), airport and runway positions from FAA data (via AirNav) or Wikidata, and route waypoints from published navigation data.
 - When a report gives a position only as a distance and direction (for example "about 4.5 miles north-northwest of the runway 22 end"), the point is placed from that and the timeline says so.
 - Lines between points are straight. A part that is only a join between two places, not based on any position data, is drawn dashed. Each flight has a note saying what was simplified.
-- Flights I could not find good path data for (for example Swissair 111 and the Gimli Glider, whose reports show the track only as a figure) were left out rather than guessed.
+- Airport and runway positions come from FAA data (via AirNav), [OurAirports](https://ourairports.com/data/) or Wikidata. Positions given in a report as a distance along a runway or an approach course (Concorde, Asiana 214) are placed along that runway's line.
+- Flights I could not source well were left out rather than guessed: Swissair 111, the Gimli Glider and Qantas 32 (their reports show the track only as a figure), JAL 123 (the English translation is a poor scan) and Tenerife (I could not get the official report).
 
-Other sources used: [Aviation Safety Network](https://aviation-safety.net/) and Wikipedia, linked on each flight. The documentaries are [Mentour Pilot](https://www.youtube.com/@MentourPilot) episodes, embedded from youtube-nocookie.com with a plain link underneath. Nothing is downloaded or re-hosted.
+Air traffic control:
 
-To add a flight, add an entry to `web/src/data/historyFlights.json`. The tests in `web/src/lib/history.test.ts` check every entry (coordinates in range, a departure first and a final position last, https sources, a valid video id, no em dashes).
+- Cockpit voice recordings are never released, so the page has none. Where a report quotes the air traffic control exchange, the page shows a short excerpt, word for word, with the page it comes from. For fatal flights only the moment of decision is quoted, never the end.
+- US Airways 1549 also has the official recording the FAA released in February 2009 (the LaGuardia departure position). The FAA page is gone, so the player uses the copy in the Internet Archive and starts just before the first call about the birds. Nothing is re-hosted.
+
+Other sources used: [Aviation Safety Network](https://aviation-safety.net/) and Wikipedia, linked on each flight. The documentaries are [Mentour Pilot](https://www.youtube.com/@MentourPilot) episodes, except Colgan 3407, which uses the official Mayday: Air Disaster channel. They are embedded from youtube-nocookie.com with a plain link underneath. Nothing is downloaded or re-hosted.
+
+To add a flight, add an entry to `web/src/data/historyFlights.json`. The tests in `web/src/lib/history.test.ts` check every entry (coordinates in range, a departure first and a final position last, https sources, a valid video id, sourced ATC excerpts, no em dashes).
 
 ## How it fits together
 

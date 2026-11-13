@@ -1,5 +1,106 @@
 [
   {
+    "id": "air-florida-90",
+    "flightNumber": "Air Florida 90",
+    "date": "1982-01-13",
+    "airline": "Air Florida",
+    "aircraft": "Boeing 737-222",
+    "registration": "N62AF",
+    "route": "Washington National to Fort Lauderdale, via Tampa",
+    "timeZone": "local time in Washington (EST)",
+    "outcome": "74 of the 79 people on board and 4 people on the bridge died",
+    "summary": [
+      "Heavy snow had closed Washington National Airport for a while, and the flight left about 1 hour 45 minutes late. The airplane was de-iced, then waited a long time in falling snow before its takeoff clearance. The engine anti-ice was not switched on, so ice on the engine sensors made the thrust gauges read higher than the real thrust.",
+      "During the takeoff run the first officer said several times that something did not look right, but the takeoff continued. With snow and ice on the wings, the 737 pitched up and could barely climb. Less than a mile past the end of the runway it hit the northbound span of the 14th Street Bridge, striking cars, and went into the ice-covered Potomac River. Four passengers and one crew member survived."
+    ],
+    "cause": "The NTSB found the probable cause was the crew's failure to use engine anti-ice during ground operation and takeoff, their decision to take off with snow and ice on the wings, and the captain's failure to reject the takeoff when his attention was called to the unusual engine readings. Contributing were the long wait between de-icing and takeoff, the 737's known tendency to pitch up with even small amounts of contamination on the wing leading edge, and the crew's limited experience of jet winter operations.",
+    "atc": {
+      "source": "NTSB AAR-82/08, page 5",
+      "lines": [
+        {
+          "time": "15:58:55",
+          "speaker": "Washington tower",
+          "text": "Taxi into position and hold... be ready for an immediate [takeoff]."
+        },
+        {
+          "time": "15:59",
+          "speaker": "Washington tower",
+          "text": "Palm 90 cleared for takeoff."
+        }
+      ]
+    },
+    "lessons": [
+      "The accident became a standard lesson in winter operations: the time between de-icing and takeoff matters, and a crew that sees snow or ice on the wings should not take off.",
+      "It showed how ice on an engine's pressure sensor can make the thrust gauges read wrong, and why engine anti-ice must be on when the conditions call for it.",
+      "The first officer pointed out the abnormal engine readings several times during the takeoff run. The NTSB included the captain's failure to reject the takeoff in the probable cause."
+    ],
+    "path": [
+      [
+        -77.0368,
+        38.8424
+      ],
+      [
+        -77.0387,
+        38.8612
+      ],
+      [
+        -77.04278,
+        38.87389
+      ]
+    ],
+    "pathNote": "Straight lines between the start and end of runway 36 (FAA data via OurAirports; the runway is numbered 1/19 today) and the crash site at the 14th Street Bridge (Wikidata), which is 0.79 nautical miles from the runway end. The report gives 0.75.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff roll",
+        "time": "15:59:46",
+        "text": "Engines spool up on runway 36 with 74 passengers and 5 crew on board.",
+        "coordinates": [
+          -77.0368,
+          38.8424
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "End of runway",
+        "text": "Witnesses said the airplane lifted off well down the runway and climbed slowly, nose high.",
+        "coordinates": [
+          -77.0387,
+          38.8612
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "14th Street Bridge",
+        "time": "16:01",
+        "text": "Hits the northbound span and goes into the Potomac River, 0.75 nautical miles from the end of the runway.",
+        "coordinates": [
+          -77.04278,
+          38.87389
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "iUmnFOiIijY",
+      "title": "Why did this Boeing 737 CRASH into a bridge, just after takeoff?! | Air Florida flight 90",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "NTSB Aircraft Accident Report AAR-82/08",
+        "url": "https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR8208.pdf"
+      },
+      {
+        "name": "Wikipedia: Air Florida Flight 90",
+        "url": "https://en.wikipedia.org/wiki/Air_Florida_Flight_90"
+      },
+      {
+        "name": "Runway data (OurAirports)",
+        "url": "https://ourairports.com/airports/KDCA/"
+      }
+    ]
+  },
+  {
     "id": "aloha-243",
     "flightNumber": "Aloha Airlines 243",
     "date": "1988-04-28",
@@ -14,6 +115,26 @@
       "The captain took control, made an emergency descent and diverted to Kahului on Maui. The left engine stopped during the approach because its control cables had been damaged. The crew landed on runway 02 about 13 minutes after the failure. After the accident, a passenger said she had seen a crack in the fuselage while boarding at Hilo, but did not mention it to anyone."
     ],
     "cause": "The NTSB found that Aloha Airlines' maintenance program failed to find significant disbonding and fatigue damage, which led to the failure of a lap joint and the separation of the upper fuselage. Cracks had started at many rivet holes along the joint at once. Contributing were weak supervision of maintenance, weak FAA oversight, an FAA directive that did not require inspection of all the lap joints Boeing had proposed, and the lack of a complete fix for early 737 lap joint bonding problems.",
+    "atc": {
+      "source": "NTSB AAR-89/03, page 4",
+      "lines": [
+        {
+          "time": "13:53:44",
+          "speaker": "The first officer, to Maui tower",
+          "text": "We're going to need assistance. We cannot communicate with the flight attendants. We'll need assistance for the passengers when we land."
+        },
+        {
+          "time": "13:55:05",
+          "speaker": "The first officer, to Maui tower",
+          "text": "We won't have a nose gear."
+        },
+        {
+          "time": "13:56:14",
+          "speaker": "The crew, to Maui tower",
+          "text": "We'll need all the equipment you've got."
+        }
+      ]
+    },
     "lessons": [
       "The airplane had cracked in many places along one joint at the same time, known as multiple site damage. The NTSB asked that new airliners be fatigue tested to at least twice their planned service life, and that manufacturers find structure prone to multiple site damage and set inspections for it (A-89-67).",
       "Interisland flights are very short, so Aloha's airplanes flew far more pressurisation cycles per flight hour than maintenance programs assumed. The NTSB asked the FAA to identify such operators and make sure their maintenance catches cycle related damage (A-89-54).",
@@ -82,6 +203,308 @@
       {
         "name": "FAA runway end positions for PHOG (via AirNav)",
         "url": "https://www.airnav.com/airport/PHOG"
+      }
+    ]
+  },
+  {
+    "id": "united-232",
+    "flightNumber": "United 232",
+    "date": "1989-07-19",
+    "airline": "United Airlines",
+    "aircraft": "McDonnell Douglas DC-10-10",
+    "registration": "N1819U",
+    "route": "Denver Stapleton to Philadelphia, with a stop in Chicago",
+    "timeZone": "central daylight time",
+    "outcome": "111 of the 296 people on board died; 185 survived",
+    "summary": [
+      "In cruise at 37,000 feet, the fan disk in the tail-mounted engine broke apart. Fragments cut the lines of all three hydraulic systems, so the pilots lost their normal flight controls.",
+      "The crew, joined by a United check pilot who was travelling as a passenger, steered by changing the thrust of the two wing engines. They flew to Sioux City and touched down on a closed runway, 22, about 44 minutes after the failure. The right wing hit the ground first, and the airplane broke up and caught fire. 185 people survived."
+    ],
+    "cause": "The NTSB found the probable cause was that United's engine overhaul inspection did not find a fatigue crack in the stage 1 fan disk, which started from a defect made when the disk was manufactured. When the disk came apart, the debris went beyond what the hydraulic system design was protected against.",
+    "atc": {
+      "source": "NTSB AAR-90/06, page 23",
+      "lines": [
+        {
+          "time": "15:51:04",
+          "speaker": "Sioux City approach (as the report describes it)",
+          "text": "Reports the airplane 21 miles north of the airport and asks for a wider turn, to keep it away from the city."
+        },
+        {
+          "time": "15:51",
+          "speaker": "The captain",
+          "text": "Whatever you do, keep us away from the city."
+        }
+      ]
+    },
+    "lessons": [
+      "The NTSB asked for redundant \"second set of eyes\" inspections of critical engine parts such as fan disks (A-90-167, A-90-176, A-90-177).",
+      "It asked the FAA to review how flight control power sources are protected and made redundant on current airplanes, and to encourage backup flight control systems on new wide-body designs (A-90-168, A-90-169).",
+      "An infant held on a parent's lap died. The NTSB had already recommended that young children be restrained in a seat suited to their height and weight (A-90-78)."
+    ],
+    "path": [
+      [
+        -104.88184,
+        39.77925
+      ],
+      [
+        -95.82253,
+        42.81333
+      ],
+      [
+        -96.38444,
+        42.75226
+      ],
+      [
+        -96.38389,
+        42.40806
+      ]
+    ],
+    "sketchedUntil": 1,
+    "pathNote": "The dashed part from Denver is only a straight line; the report does not give the position of the engine failure. After that the line joins two positions the report gives as distances from Sioux City (\"about 35 miles northeast\" and \"21 miles north\", placed as nautical miles because air traffic control uses them) and the crash site from Wikidata. The real track included several right turns that are not drawn.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff",
+        "time": "14:09",
+        "text": "Leaves Denver with 285 passengers and 11 crew.",
+        "coordinates": [
+          -104.88184,
+          39.77925
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "35 miles northeast",
+        "time": "15:34:27",
+        "text": "The engine failed at 15:16:10. Now the captain decides to try for Sioux City. The airplane is about 35 miles northeast of the airport.",
+        "coordinates": [
+          -95.82253,
+          42.81333
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "21 miles north",
+        "time": "15:51:04",
+        "text": "The controller widens the turn to line up for the runway and keep the airplane away from the city.",
+        "coordinates": [
+          -96.38444,
+          42.75226
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Sioux Gateway Airport",
+        "time": "16:00",
+        "text": "Touches down on closed runway 22, slightly left of the centreline.",
+        "coordinates": [
+          -96.38389,
+          42.40806
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "pT7CgWvD-x4",
+      "title": "The Landing No Simulator Could Replicate | The Insane Story Of United Airlines Flight 232",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "NTSB Aircraft Accident Report AAR-90/06 (FAA copy)",
+        "url": "https://www.faa.gov/sites/faa.gov/files/2022-11/AccidentReportUAL232.pdf"
+      },
+      {
+        "name": "Wikipedia: United Airlines Flight 232",
+        "url": "https://en.wikipedia.org/wiki/United_Airlines_Flight_232"
+      }
+    ]
+  },
+  {
+    "id": "twa-800",
+    "flightNumber": "TWA 800",
+    "date": "1996-07-17",
+    "airline": "Trans World Airlines",
+    "aircraft": "Boeing 747-131",
+    "registration": "N93119",
+    "route": "New York JFK to Paris Charles de Gaulle",
+    "timeZone": "local time in New York (EDT)",
+    "outcome": "All 230 people on board died",
+    "summary": [
+      "About 12 minutes after takeoff from JFK, while climbing over the Atlantic south of Long Island, the 747 broke up in flight and fell into the ocean about 8 miles south of East Moriches, New York.",
+      "Investigators recovered the wreckage from the sea floor and rebuilt part of the airplane. They found that the centre wing fuel tank, which held only about 50 gallons of fuel, had exploded. Heat from equipment under the tank had warmed the fuel vapour inside, making it flammable."
+    ],
+    "cause": "The NTSB found the probable cause was an explosion of the centre wing fuel tank, from ignition of the flammable fuel and air mixture in it. The ignition source could not be determined with certainty; the most likely was a short circuit outside the tank that let too much voltage into it through the wiring of the fuel quantity indication system.",
+    "lessons": [
+      "Until then, certification assumed fuel tank explosions could be prevented by keeping ignition sources out. The NTSB said that was not enough and asked for ways to stop tanks from holding explosive fuel vapour at all, giving \"significant consideration\" to nitrogen inerting systems (A-96-174).",
+      "It asked the FAA to review how wiring for safety critical systems is separated, and to fix the ignition risk from silver sulfide deposits on fuel quantity parts inside tanks (A-00-106, A-00-107).",
+      "It pushed for better care of ageing wiring: maintenance training, reporting of unsafe wiring, and new technology such as arc fault circuit breakers (A-00-108)."
+    ],
+    "path": [
+      [
+        -73.7647,
+        40.6488
+      ],
+      [
+        -72.63694,
+        40.64917
+      ]
+    ],
+    "sketchedUntil": 1,
+    "pathNote": "The dashed line is only a straight join between JFK runway 22R and the accident site; the airplane actually left to the southwest and turned east along the coast. The accident site is the centre of the main wreckage area whose corner coordinates are given in the NTSB report.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff",
+        "time": "20:19",
+        "text": "Leaves JFK runway 22R for Paris, more than an hour late, with 212 passengers and 18 crew.",
+        "coordinates": [
+          -73.7647,
+          40.6488
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Accident site",
+        "time": "20:31:12",
+        "text": "The recorders stop as the airplane breaks up. The main wreckage lies on the ocean floor about 8 miles south of East Moriches.",
+        "coordinates": [
+          -72.63694,
+          40.64917
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "DHHeGrvuAhg",
+      "title": "What REALLY Brought Down Flight TWA 800?!",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "NTSB Aircraft Accident Report AAR-00/03",
+        "url": "https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR0003.pdf"
+      },
+      {
+        "name": "Wikipedia: TWA Flight 800",
+        "url": "https://en.wikipedia.org/wiki/TWA_Flight_800"
+      },
+      {
+        "name": "Runway data (OurAirports)",
+        "url": "https://ourairports.com/airports/KJFK/"
+      }
+    ]
+  },
+  {
+    "id": "air-france-4590",
+    "flightNumber": "Air France 4590",
+    "date": "2000-07-25",
+    "airline": "Air France",
+    "aircraft": "Aérospatiale/BAC Concorde 101",
+    "registration": "F-BTSC",
+    "route": "Paris Charles de Gaulle to New York JFK (charter)",
+    "timeZone": "UTC (local time was two hours later)",
+    "outcome": "All 109 people on board and 4 people on the ground died",
+    "summary": [
+      "Late in the takeoff run, just after V1, a tyre on the left main landing gear ran over a strip of metal that had fallen from an airplane that took off five minutes earlier. The tyre burst, and pieces of it struck the underside of the wing.",
+      "A fuel tank was ruptured and the leaking fuel caught fire. Two engines lost thrust and the landing gear would not retract. The crew tried to reach Le Bourget airport, but the airplane crashed onto a hotel in Gonesse about a minute and a half after the tyre burst."
+    ],
+    "cause": "The BEA found the causes were the high-speed passage of a tyre over a part lost by an aircraft that had taken off five minutes earlier, the ripping out of a large piece of fuel tank by energy from a tyre fragment, and ignition of the leaking fuel, causing a very large fire and severe loss of thrust on engines 2 and 1. The landing gear that could not retract probably helped keep the flame burning.",
+    "atc": {
+      "source": "BEA final report, section 1.9.2.4",
+      "lines": [
+        {
+          "time": "14:43:13",
+          "speaker": "Charles de Gaulle tower",
+          "text": "... 45 90 you have flames ... you have flames behind you."
+        },
+        {
+          "time": "14:43:31",
+          "speaker": "Charles de Gaulle tower",
+          "text": "45 90 you have strong flames behind you ... as you wish you have priority for a return to the field."
+        }
+      ]
+    },
+    "lessons": [
+      "Before Concorde flew again, the authorities required flexible linings in six of its fuel tanks, stronger electrical wiring in the landing gear bays, and new Michelin NZG tyres.",
+      "The BEA recommended stronger certification requirements for aircraft tyres, and certification rules that take account of fuel tank damage from debris and the ignition of fuel leaks.",
+      "It also recommended regulations on inspecting runways for debris, since the strip of metal was lying on the runway."
+    ],
+    "path": [
+      [
+        2.61018,
+        48.9988
+      ],
+      [
+        2.58637,
+        48.99752
+      ],
+      [
+        2.55274,
+        48.9957
+      ],
+      [
+        2.47222,
+        48.98556
+      ]
+    ],
+    "pathNote": "The takeoff run follows runway 26R (runway data from OurAirports; the report gives its length as 4,215 metres). The metal strip is placed in the middle of the 1,642 to 1,845 metres the BEA gives. After the runway, the line goes straight to the crash site in Gonesse (Wikidata), 9.6 km from the threshold; the BEA says about 9,500 metres. The real flight path curved left.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff roll",
+        "time": "14:42:31",
+        "text": "Starts the takeoff from runway 26 right with 100 passengers and 9 crew.",
+        "coordinates": [
+          2.61018,
+          48.9988
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Tyre burst",
+        "time": "14:43",
+        "text": "Just after V1, the tyre runs over the metal strip, which was found between 1,642 and 1,845 metres from the start of the runway.",
+        "coordinates": [
+          2.58637,
+          48.99752
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "End of runway",
+        "text": "The airplane lifts off with a large fire under the left wing. The crew shuts down engine 2.",
+        "coordinates": [
+          2.55274,
+          48.9957
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Gonesse",
+        "time": "14:44",
+        "text": "Crashes onto a hotel at La Patte d'Oie in Gonesse, at the junction of the N17 and D902 roads.",
+        "coordinates": [
+          2.47222,
+          48.98556
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "C-nALYF73hU",
+      "title": "The Crash that KILLED Concorde | Air France flight 4590",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "BEA final report f-sc000725a (English, FAA copy)",
+        "url": "https://www.faa.gov/sites/faa.gov/files/2022-11/Concorde_Accident_Report.pdf"
+      },
+      {
+        "name": "Aviation Safety Network: F-BTSC",
+        "url": "https://aviation-safety.net/wikibase/323465"
+      },
+      {
+        "name": "Wikipedia: Air France Flight 4590",
+        "url": "https://en.wikipedia.org/wiki/Air_France_Flight_4590"
       }
     ]
   },
@@ -295,6 +718,33 @@
       "time": "15:27:33",
       "source": "NTSB AAR-10/03, page 2"
     },
+    "atc": {
+      "source": "NTSB AAR-10/03, pages 2 and 3",
+      "lines": [
+        {
+          "time": "15:28:05",
+          "speaker": "The captain, asked if he wants runway 13 at LaGuardia",
+          "text": "We're unable. We may end up in the Hudson."
+        },
+        {
+          "time": "15:28:46",
+          "speaker": "The captain",
+          "text": "I'm not sure we can make any runway. Uh what's over to our right anything in New Jersey maybe Teterboro?"
+        },
+        {
+          "time": "15:29",
+          "speaker": "The captain, asked which Teterboro runway he wants",
+          "text": "We're gonna be in the Hudson."
+        }
+      ],
+      "recording": {
+        "label": "New York TRACON, LaGuardia departure position (FAA release, February 2009)",
+        "url": "https://web.archive.org/web/20090213052046id_/http://www.faa.gov/data_statistics/accident_incident/1549/media/N90%20AWE1546%201-15-09%20L116.mp3",
+        "pageUrl": "https://web.archive.org/web/20090313084710/http://www.faa.gov:80/DATA%5FSTATISTICS/ACCIDENT%5FINCIDENT/1549/",
+        "note": "The full 20 minute recording from the controller's position (20:20 to 20:40 UTC), including quiet gaps. The player starts at 7:20, just before the captain's first call about the birds at 15:27:33 local time. The FAA page is gone, so this plays the copy kept by the Internet Archive.",
+        "startSeconds": 440
+      }
+    },
     "lessons": [
       "The Airbus dual engine failure checklist the crew used was written for a failure above 20,000 feet. The NTSB asked the FAA to require a checklist for a dual engine failure at low altitude (A-10-66) and to add that scenario to pilot simulator training (A-10-69).",
       "Engine bird ingestion certification tests were questioned. The NTSB asked for the flocking bird tests to be reviewed, including whether large birds hitting the engine core should be tested (A-10-64, A-10-65).",
@@ -386,6 +836,76 @@
       {
         "name": "FAA runway end positions for KLGA (via AirNav)",
         "url": "https://www.airnav.com/airport/KLGA"
+      }
+    ]
+  },
+  {
+    "id": "colgan-3407",
+    "flightNumber": "Continental Connection 3407",
+    "date": "2009-02-12",
+    "airline": "Colgan Air, as Continental Connection",
+    "aircraft": "Bombardier DHC-8-400 (Q400)",
+    "registration": "N200WQ",
+    "route": "Newark to Buffalo",
+    "timeZone": "local time (EST)",
+    "outcome": "All 49 people on board and 1 person on the ground died",
+    "summary": [
+      "On a night approach to Buffalo in light icing, the airplane slowed as the crew lowered the landing gear and flaps. The stick shaker warned of an approaching stall.",
+      "The captain pulled back on the controls instead of lowering the nose, and the airplane stalled. The stick pusher activated three times, but the crew did not recover. The airplane crashed into a house in Clarence Center, about 5 nautical miles northeast of the airport."
+    ],
+    "cause": "The NTSB found the probable cause was the captain's inappropriate response to the stick shaker, which led to a stall from which the airplane did not recover. Contributing were the crew's failure to monitor airspeed against the rising low speed cue, not following sterile cockpit rules, the captain's failure to manage the flight, and Colgan's inadequate procedures for airspeed selection in icing conditions.",
+    "lessons": [
+      "The NTSB asked for stall training that includes fully developed and unexpected stalls, and stick pusher training in the simulator (A-10-22, A-10-23).",
+      "It asked airlines to manage fatigue risks from pilots commuting to work (A-10-16), and asked for complete pilot training records that new employers can see (A-10-17 to A-10-20).",
+      "The accident led to the Airline Safety and Federal Aviation Administration Extension Act of 2010, which raised the experience required to be an airline first officer and required the FAA to update its pilot rest rules."
+    ],
+    "path": [
+      [
+        -74.1686,
+        40.6925
+      ],
+      [
+        -78.6391,
+        43.0116
+      ]
+    ],
+    "sketchedUntil": 1,
+    "pathNote": "The dashed line is only a straight join between Newark and the crash site in Clarence Center (Wikidata). The report gives no positions for the route.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Takeoff",
+        "time": "21:18",
+        "text": "Cleared for takeoff from Newark at 21:18:23 after ground delays caused by high winds, with 45 passengers and 4 crew.",
+        "coordinates": [
+          -74.1686,
+          40.6925
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Clarence Center",
+        "time": "22:16:54",
+        "text": "The stick shaker activates at 22:16:27. The recording ends 27 seconds later, about 5 nautical miles northeast of Buffalo airport.",
+        "coordinates": [
+          -78.6391,
+          43.0116
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "U6tCJteMHrk",
+      "title": "The Worst Plane Crash Of 2009 | Flight 3407 | Mayday: Air Disaster",
+      "channel": "Mayday: Air Disaster"
+    },
+    "sources": [
+      {
+        "name": "NTSB Aircraft Accident Report AAR-10/01",
+        "url": "https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1001.pdf"
+      },
+      {
+        "name": "Wikipedia: Colgan Air Flight 3407",
+        "url": "https://en.wikipedia.org/wiki/Colgan_Air_Flight_3407"
       }
     ]
   },
@@ -513,6 +1033,119 @@
       {
         "name": "Wikipedia: Air France Flight 447",
         "url": "https://en.wikipedia.org/wiki/Air_France_Flight_447"
+      }
+    ]
+  },
+  {
+    "id": "asiana-214",
+    "flightNumber": "Asiana 214",
+    "date": "2013-07-06",
+    "airline": "Asiana Airlines",
+    "aircraft": "Boeing 777-200ER",
+    "registration": "HL7742",
+    "route": "Seoul Incheon to San Francisco",
+    "timeZone": "Pacific daylight time",
+    "outcome": "3 of the 307 people on board died",
+    "summary": [
+      "On a clear day, with the glideslope out of service, the crew flew a visual approach to runway 28L. The airplane was high, and in trying to get down the pilot flying selected an autopilot mode that started a climb. He disconnected the autopilot and pulled the thrust levers to idle, which put the autothrottle in a mode where it no longer controlled airspeed. Nobody noticed.",
+      "The airplane came down below the glidepath and the airspeed fell well below the target. The crew started a go-around too late. The main landing gear and tail hit the seawall short of the runway, and the airplane slid and spun on the runway before stopping. Three passengers died."
+    ],
+    "cause": "The NTSB found the probable cause was the crew's mismanagement of the descent during the visual approach, the pilot flying's unintended deactivation of automatic airspeed control, the crew's inadequate monitoring of airspeed, and their delayed go-around. Contributing were complex autothrottle and autopilot systems that were not well described in Boeing's documentation and Asiana's training, nonstandard crew communication, inadequate visual approach training, inadequate supervision by the instructor pilot, and fatigue.",
+    "lessons": [
+      "The NTSB asked for better Boeing 777 training on autothrottle modes, including when the autothrottle does not protect against low speed (A-14-37 to A-14-40).",
+      "It asked for an expert review of how crews are trained to understand automation, and a design review of how the 777 controls airspeed (A-14-41, A-14-42).",
+      "It asked for design requirements for low energy alerting systems that warn a crew when speed and height are running out (A-14-43)."
+    ],
+    "path": [
+      [
+        -233.56083,
+        37.4625
+      ],
+      [
+        -122.09956,
+        37.50266
+      ],
+      [
+        -122.26644,
+        37.57308
+      ],
+      [
+        -122.35745,
+        37.61134
+      ],
+      [
+        -122.36479,
+        37.61441
+      ]
+    ],
+    "sketchedUntil": 1,
+    "pathNote": "The dashed line across the Pacific is only a straight join from Incheon. The approach is drawn along the runway 28L centreline using distances from the NTSB report: final approach joined about 14 nm out, 5 nm, the seawall 600 feet before the displaced threshold, and the stop about 2,400 feet from the seawall. Runway positions are from OurAirports.",
+    "keyPoints": [
+      {
+        "kind": "departure",
+        "label": "Departure",
+        "text": "Leaves Incheon for San Francisco with 291 passengers and 16 crew. The flight crosses the date line and 8 time zones.",
+        "coordinates": [
+          -233.56083,
+          37.4625
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "14 nm final",
+        "text": "Joins the final approach course about 14 nautical miles out, slightly above the 3 degree glidepath.",
+        "coordinates": [
+          -122.09956,
+          37.50266
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "5 nm",
+        "text": "After keeping 180 knots to 5 nm as asked by air traffic control, the airplane is well above the glidepath.",
+        "coordinates": [
+          -122.26644,
+          37.57308
+        ]
+      },
+      {
+        "kind": "event",
+        "label": "Seawall",
+        "time": "11:27:50",
+        "text": "The stick shaker activated at 11:27:46 and the go-around call came at 11:27:47.8. The landing gear and tail strike the seawall.",
+        "coordinates": [
+          -122.35745,
+          37.61134
+        ]
+      },
+      {
+        "kind": "final",
+        "label": "Stop",
+        "time": "11:28:06",
+        "text": "After spinning about 330 degrees, the airplane stops off the left side of the runway, about 2,400 feet from the seawall.",
+        "coordinates": [
+          -122.36479,
+          37.61441
+        ]
+      }
+    ],
+    "video": {
+      "youtubeId": "0pLRMJyD9TY",
+      "title": "WHY did The Pilots CONTINUE?! Asiana flight 214",
+      "channel": "Mentour Pilot"
+    },
+    "sources": [
+      {
+        "name": "NTSB Aircraft Accident Report AAR-14/01",
+        "url": "https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1401.pdf"
+      },
+      {
+        "name": "Wikipedia: Asiana Airlines Flight 214",
+        "url": "https://en.wikipedia.org/wiki/Asiana_Airlines_Flight_214"
+      },
+      {
+        "name": "Runway data (OurAirports)",
+        "url": "https://ourairports.com/airports/KSFO/"
       }
     ]
   }

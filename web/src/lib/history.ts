@@ -2,6 +2,7 @@ import flightData from '../data/historyFlights.json'
 
 // One famous flight in the Aviation history section. The data lives in data/historyFlights.json,
 // so adding a flight means adding one entry there. Coordinates are [longitude, latitude], like GeoJSON.
+// A path that crosses the Pacific writes its western end below -180 so the line goes the short way.
 
 export type LonLat = [number, number]
 
@@ -12,6 +13,16 @@ export interface KeyPoint {
   time?: string
   text: string
   coordinates: LonLat
+}
+
+// A short excerpt of the air traffic control exchange, quoted from the report, and
+// optionally an official recording. For fatal flights only the moment of decision is
+// quoted, never the end.
+export interface AtcExcerpt {
+  source: string
+  lines: { time: string; speaker: string; text: string }[]
+  // startSeconds: where the player starts, so the key exchange is heard first.
+  recording?: { label: string; url: string; pageUrl: string; note: string; startSeconds?: number }
 }
 
 export interface Source {
@@ -34,6 +45,7 @@ export interface HistoryFlight {
   cause: string
   // One line from the record that explains the cause, with where it comes from.
   quote?: { text: string; speaker: string; time: string; source: string }
+  atc?: AtcExcerpt
   lessons: string[]
   path: LonLat[]
   // Index in path where the line starts following real data. Before it the line is only
@@ -71,6 +83,11 @@ export function pathBounds(flight: HistoryFlight): [LonLat, LonLat] {
 // youtube-nocookie.com does not set tracking cookies until the viewer presses play.
 export function youTubeEmbedUrl(id: string): string {
   return `https://www.youtube-nocookie.com/embed/${id}?rel=0`
+}
+
+// A media fragment (#t=) makes the browser start the recording at that point.
+export function recordingSrc(recording: { url: string; startSeconds?: number }): string {
+  return recording.startSeconds ? `${recording.url}#t=${recording.startSeconds}` : recording.url
 }
 
 export function youTubeWatchUrl(id: string): string {

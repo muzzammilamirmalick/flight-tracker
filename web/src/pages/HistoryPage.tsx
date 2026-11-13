@@ -5,6 +5,7 @@ import { PHONE_QUERY, useMediaQuery } from '../hooks/useMediaQuery'
 import {
   formatHistoryDate,
   HISTORY_FLIGHTS,
+  recordingSrc,
   youTubeEmbedUrl,
   youTubeWatchUrl,
   type HistoryFlight,
@@ -62,9 +63,7 @@ export function HistoryPage({ reducedMotion }: { reducedMotion: boolean }) {
                   onClick={() => pickFlight(f.id)}
                 >
                   <span className={styles.flightNumber}>{f.flightNumber}</span>
-                  <span className={styles.flightMeta}>
-                    {formatHistoryDate(f.date)} · {f.aircraft}
-                  </span>
+                  <span className={styles.flightMeta}>{f.date.slice(0, 4)}</span>
                 </button>
               </li>
             ))}
@@ -178,6 +177,39 @@ function FlightStory({ flight, focusedPoint, onFocusPoint }: FlightStoryProps) {
           </figure>
         )}
       </section>
+
+      {flight.atc && (
+        <section className={styles.section} aria-labelledby="atc-heading">
+          <h3 id="atc-heading">Air traffic control</h3>
+          {flight.atc.recording && (
+            <div className={styles.recording}>
+              <p className={styles.recordingLabel}>{flight.atc.recording.label}</p>
+              {/* preload="none" so nothing downloads until the viewer presses play. */}
+              <audio controls preload="none" src={recordingSrc(flight.atc.recording)} className={styles.audio}>
+                <a href={flight.atc.recording.url}>Download the recording</a>
+              </audio>
+              <p className={styles.note}>
+                {flight.atc.recording.note}{' '}
+                <a href={flight.atc.recording.pageUrl} target="_blank" rel="noreferrer">
+                  Archived FAA page with the recordings and transcripts
+                </a>
+                .
+              </p>
+            </div>
+          )}
+          <ol className={styles.transcript}>
+            {flight.atc.lines.map((line) => (
+              <li key={line.time + line.text}>
+                <span className={styles.transcriptMeta}>
+                  <span className={styles.pointTime}>{line.time}</span> {line.speaker}
+                </span>
+                <span className={styles.transcriptText}>"{line.text}"</span>
+              </li>
+            ))}
+          </ol>
+          <p className={styles.note}>Quoted from {flight.atc.source}. Times are {flight.timeZone}.</p>
+        </section>
+      )}
 
       <section className={styles.section} aria-labelledby="lessons-heading">
         <h3 id="lessons-heading">What changed</h3>
